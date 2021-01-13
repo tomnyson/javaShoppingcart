@@ -15,7 +15,7 @@ import java.sql.*;
  */
 public class UserDao {
 
-    public boolean isLogin(User user) {
+    public static boolean isLogin(User user) {
         try {
             Connection conn = DBhelper.getConnection();
             String sql = "SELECT * FROM users where email= ? and password= ?";
@@ -36,7 +36,7 @@ public class UserDao {
         return false;
     }
 
-    public boolean createUser(User user) {
+    public static  boolean createUser(User user) {
         try {
             Connection conn = DBhelper.getConnection();
             String sql = "INSERT INTO users (email, password, role) VALUES(?, ?, ?)";
@@ -58,7 +58,7 @@ public class UserDao {
         return false;
     }
 
-    public boolean isExistUser(String username) {
+    public static boolean isExistUser(String username) {
         try {
             Connection conn = DBhelper.getConnection();
             String sql = "SELECT * FROM users where email= ?";

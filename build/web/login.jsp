@@ -19,7 +19,9 @@
                 <form class="dangnhap" action="AuthController" method="post">
                     <h1>Đăng Nhập</h1>
                     <div class="alert alert-danger">
-                        ${message}
+                        <%
+                          out.println(session.getAttribute("message"));
+                        %>
                     </div>
                     <div class="form-group">
                         <label for="email">Email address:</label>
@@ -37,7 +39,9 @@
                     </div>
                     <a href="register.jsp" class="dangky">Đăng ký tài khoản</a>
                     <a href="reset-password.jsp" class="quenmk">quên mật khẩu</a>
-
+                    <%
+                          session.removeAttribute("message");
+                        %>
                 </form>
             </div>
         </div>

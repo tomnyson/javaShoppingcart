@@ -8,6 +8,26 @@
         <servlet-name>AuthController</servlet-name>
         <url-pattern>/AuthController</url-pattern>
     </servlet-mapping>
+    <!-- SMTP settings -->
+    <context-param>
+        <param-name>host</param-name>
+        <param-value>smtp.gmail.com</param-value>
+    </context-param>
+ 
+    <context-param>
+        <param-name>port</param-name>
+        <param-value>587</param-value>
+    </context-param>
+ 
+    <context-param>
+        <param-name>user</param-name>
+        <param-value>tabletkindfire@gmail.com</param-value>
+    </context-param>
+ 
+    <context-param>
+        <param-name>pass</param-name>
+        <param-value>sghgleypcazkphav</param-value>
+    </context-param>
     <session-config>
         <session-timeout>
             30

@@ -20,6 +20,7 @@ import org.mindrot.jbcrypt.BCrypt;
  *
  * @author tomnyson
  */
+//maven-archetype-webapp
 public class AuthController extends HttpServlet {
 
     /**
@@ -94,14 +95,17 @@ public class AuthController extends HttpServlet {
         UserDao dao = new UserDao();
         User user = new User(username, password);
         boolean isAuth = dao.isLogin(user);
+         HttpSession session = request.getSession();
         if (isAuth) {
-            HttpSession session = request.getSession();
+           
             session.setAttribute("username", username);
             session.setAttribute("password", password);
             request.getRequestDispatcher("home.jsp").forward(request, response);
         } else {
-            request.setAttribute("message", "tài khoản hoặc mật khẩu bị sai !!");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+//            request.setAttribute("message", "tài khoản hoặc mật khẩu bị sai !!");
+             session.setAttribute("message", "tài khoản hoặc mật khẩu bị sai !!");
+            response.sendRedirect("login.jsp");
+//            request.getRequestDispatcher("login.jsp").forward(request, response);
         }
     }
 
@@ -110,15 +114,14 @@ public class AuthController extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
        
-        UserDao dao = new UserDao();
         User user = new User(username, password, "user");
-        boolean isExist = dao.isExistUser(username);
+        boolean isExist = UserDao.isExistUser(username);
         System.out.print("isExist:" + isExist);
         if (isExist) {
             request.setAttribute("message", "Tài khoản đã có");
             request.getRequestDispatcher("register.jsp").forward(request, response);
         }
-        boolean isCreate = dao.createUser(user);
+        boolean isCreate = UserDao.createUser(user);
 
         System.out.print("isCreate:" + isCreate);
         if (isCreate) {
