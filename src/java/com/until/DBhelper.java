@@ -15,7 +15,10 @@ import java.sql.Statement;
  * @author tomnyson
  */
 public class DBhelper {
-
+      public static java.sql.Date getCurrentDate() {
+        java.util.Date today = new java.util.Date();
+        return new java.sql.Date(today.getTime());
+    }
     private static final String driver = "com.mysql.jdbc.Driver";
     private static final String dbURL = "jdbc:mysql://192.168.64.2:3306/shopping";
     private static final String userName = "dev";

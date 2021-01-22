@@ -4,6 +4,18 @@
         <servlet-name>AuthController</servlet-name>
         <servlet-class>com.controller.AuthController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UploadFileServlet</servlet-name>
+        <servlet-class>com.controller.UploadFileServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CarController</servlet-name>
+        <servlet-class>com.controller.CarController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CartController</servlet-name>
+        <servlet-class>com.controller.CartController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AuthController</servlet-name>
         <url-pattern>/AuthController</url-pattern>
@@ -13,27 +25,36 @@
         <param-name>host</param-name>
         <param-value>smtp.gmail.com</param-value>
     </context-param>
- 
     <context-param>
         <param-name>port</param-name>
         <param-value>587</param-value>
     </context-param>
- 
     <context-param>
         <param-name>user</param-name>
         <param-value>tabletkindfire@gmail.com</param-value>
     </context-param>
- 
     <context-param>
         <param-name>pass</param-name>
         <param-value>sghgleypcazkphav</param-value>
     </context-param>
+    <servlet-mapping>
+        <servlet-name>UploadFileServlet</servlet-name>
+        <url-pattern>/UploadFileServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CarController</servlet-name>
+        <url-pattern>/CarController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CartController</servlet-name>
+        <url-pattern>/CartController</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>login.jsp</welcome-file>
+        <welcome-file>layout.jsp</welcome-file>
     </welcome-file-list>
 </web-app>
