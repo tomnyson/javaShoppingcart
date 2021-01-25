@@ -52,7 +52,7 @@ static Connection conn = DBhelper.getConnection();
             String sql = "select * from cars limit ?, ?";
             if (conn != null) {
                 PreparedStatement pst = conn.prepareStatement(sql);
-                pst.setInt(1, start-1);
+                pst.setInt(1, (start-1)*total);
                  pst.setInt(2, total);
                 ResultSet resultSet = pst.executeQuery();
                 while (resultSet.next()) {

@@ -14,7 +14,7 @@ public class Item {
     private String image; 
     private int soluong;
     private double dongia;
-    private String title ;
+    private String title;
 
     public Item(int maSp, String image, int soluong, double dongia, String title ) {
         this.maSp = maSp;
