@@ -38,17 +38,23 @@ public class CartController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        //kiểm tra xem người dùng đã click vào nút mua 
         String action = request.getParameter("cart");
+        // khỏi tạo session để làm 
         HttpSession session = request.getSession();
         if (action != null) {
+            // user đã click vào nút mua mới xử lý
+            // lấy cart từ session
             Cart cart = (Cart) session.getAttribute("cart");
+            // lấy thông tin chi tiết của sản phẩm dựa vào mã id đã chuyển ở b1
             String masp = request.getParameter("masp");
             System.out.println("masp" + masp);
+            // lấy thông tin chi tiết sản phẩm dựa vào id
             Car car = CarDao.findProductById(Integer.parseInt(masp));
+            // khoi tao item de chuan bi add vao gio hang
             Item item = new Item(Integer.parseInt(masp), car.getImage(), 1, car.getPrice(), car.getTitle());
+            // check trường hợp cần thêm vào add
             if (action.equals("add")) {
-
-                System.out.println("masp" + masp);
                 if (cart == null) {
                     cart = new Cart();
                 }
@@ -56,7 +62,9 @@ public class CartController extends HttpServlet {
             } else if (action.equals("remove")) {
                 cart.removeCart(item);
             }
+            // update lại session
             session.setAttribute("cart", cart);
+              // chuyển đến trang giỏ hàng
             response.sendRedirect("./giohang.jsp");
         }
 

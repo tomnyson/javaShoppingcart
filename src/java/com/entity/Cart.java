@@ -17,6 +17,7 @@ public class Cart {
     private ArrayList<Item> cart;
 
     public Cart() {
+        // khởi tạo danh sách rỗng []
         this.cart = new ArrayList<Item>();
     }
 

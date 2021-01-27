@@ -49,6 +49,7 @@ public class CarController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
+            
             List<Car> lscar = new ArrayList<Car>();
             String page = request.getParameter("page");
             int currentPage = 1;

@@ -51,12 +51,10 @@
                     <fmt:formatNumber type="number" maxFractionDigits="2" value="<%= mh.getDongia()%>" />
                 </td>
                 <td>
-                   
                         <input type="hidden" name="masp" value="<%= mh.getMaSp()%>"/>
                         <button type="submit" name="cart" value="add" class="btn btn-info btn-block">
                             <small>+</small
                         </button>
-                   
                 </td>
                 <td>
                     <input type="hidden" name="masp" value="<%= mh.getMaSp()%>"/>
