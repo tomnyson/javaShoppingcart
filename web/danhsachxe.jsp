@@ -7,6 +7,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="com.entity.Cart" %>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -16,17 +18,38 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="./style/styles.css">
     </head>
     <body>
+        <% Cart cart = (Cart) session.getAttribute("cart");
+            try {
+                if (cart != null) {
+                    System.out.println(cart.kichThuoc());
+                } else {
+                    System.out.println(cart);
+                }
+            } catch (Exception e) {
+                throw e;
+            }
+
+
+        %>
         <div class="container">
             <div class="row">
                 <div class="col col-sm-12">
-                <form class="form-inline" action="oto" method="get">
-                    <input type="serch" class="form-control" placeholder="tim kiếm xe" id="pwd">
-                    <div class="form-check">
+                    <div class="header">
+                        <form class="form-inline" action="oto" method="get">
+                            <input type="serch" class="form-control" placeholder="tim kiếm xe" id="pwd">
+                            <div class="form-check">
+                            </div>
+                            <button type="submit" class="btn btn-primary">tìm xe</button>
+                        </form>
+                        <a href= "giohang.jsp">cart
+                            <c:if test="${not empty cart}">
+                                ${cart.kichThuoc()}
+                            </c:if>
+                        </a>
                     </div>
-                    <button type="submit" class="btn btn-primary">tìm xe</button>
-                </form>
                 </div>
             </div>
             <div class="row">
@@ -55,9 +78,9 @@
                             <div class="mx-3 mt-3 mb-2">
                                 <form action="cart" method="post">
                                     <input type="hidden" name="masp" value="${car.getId()}"/>
-                                <button type="submit" name="cart" value="add" class="btn btn-danger btn-block">
-                                    <small>MUA</small
-                                </button>
+                                    <button type="submit" name="cart" value="add" class="btn btn-danger btn-block">
+                                        <small>MUA</small
+                                    </button>
                                 </form>
                             </div>
                         </div>

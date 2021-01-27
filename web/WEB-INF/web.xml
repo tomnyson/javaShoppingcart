@@ -16,6 +16,10 @@
         <servlet-name>CartController</servlet-name>
         <servlet-class>com.controller.CartController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AjaxController</servlet-name>
+        <servlet-class>com.controller.AjaxController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AuthController</servlet-name>
         <url-pattern>/AuthController</url-pattern>
@@ -48,6 +52,10 @@
     <servlet-mapping>
         <servlet-name>CartController</servlet-name>
         <url-pattern>/CartController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AjaxController</servlet-name>
+        <url-pattern>/AjaxController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

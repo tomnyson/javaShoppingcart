@@ -5,26 +5,29 @@
  */
 package com.controller;
 
-import com.entity.Car;
-import com.entity.Cart;
-import com.entity.Item;
-import com.model.CarDao;
+import com.entity.City;
+import com.entity.District;
+import com.entity.Village;
+import com.google.gson.Gson;
+import com.model.CityDao;
+import com.model.DistrictDao;
+import com.model.VillageDao;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author tomnyson
  */
-@WebServlet("/cart")
-public class CartController extends HttpServlet {
+@WebServlet(name = "ajax", urlPatterns = {"/ajax/city", "/ajax/district", "/ajax/village"})
+public class AjaxController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,27 +40,29 @@ public class CartController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        String action = request.getParameter("cart");
-        HttpSession session = request.getSession();
-        if (action != null) {
-            Cart cart = (Cart) session.getAttribute("cart");
-            String masp = request.getParameter("masp");
-            System.out.println("masp" + masp);
-            Car car = CarDao.findProductById(Integer.parseInt(masp));
-            Item item = new Item(Integer.parseInt(masp), car.getImage(), 1, car.getPrice(), car.getTitle());
-            if (action.equals("add")) {
 
-                System.out.println("masp" + masp);
-                if (cart == null) {
-                    cart = new Cart();
-                }
-                cart.addCart(item);
-            } else if (action.equals("remove")) {
-                cart.removeCart(item);
-            }
-            session.setAttribute("cart", cart);
-            response.sendRedirect("./giohang.jsp");
+        String uri = request.getRequestURI();
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        if (uri.contains("city")) {
+            List<City> cities = new ArrayList<City>();
+            cities = CityDao.findAll();
+            String json = new Gson().toJson(cities);
+            response.getWriter().write(json);
+        }
+        if (uri.contains("district")) {
+            String matp = request.getParameter("matp");
+            List<District> district = new ArrayList<District>();
+            district = DistrictDao.findAllByTp(Integer.parseInt(matp));
+            String json = new Gson().toJson(district);
+            response.getWriter().write(json);
+        }
+          if (uri.contains("village")) {
+            String mah = request.getParameter("mah");
+            List<Village> district = new ArrayList<Village>();
+            district = VillageDao.findAllByQuan(Integer.parseInt(mah));
+            String json = new Gson().toJson(district);
+            response.getWriter().write(json);
         }
 
     }

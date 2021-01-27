@@ -15,27 +15,27 @@ import java.util.Objects;
 public class Cart {
 
     private ArrayList<Item> cart;
-    
+
     public Cart() {
         this.cart = new ArrayList<Item>();
     }
+
     public Cart(ArrayList<Item> cart) {
         this.cart = cart;
     }
 
     public void addCart(Item item) {
         try {
-            System.out.println("add cart"+cart.size());
-        if (cart.contains(item)) {
-            Item hang = cart.get(cart.indexOf(item));
-            hang.setSoluong(item.getSoluong() + item.getSoluong());
-        } else {
-            cart.add(item);
-        }
+            if (cart.contains(item)) {
+                Item hang = cart.get(cart.indexOf(item));
+                hang.setSoluong(hang.getSoluong() + item.getSoluong());
+            } else {
+                cart.add(item);
+            }
         } catch (Exception e) {
             System.out.println(e);
         }
-        
+
     }
 
     public void removeCart(Item item) {
@@ -50,14 +50,19 @@ public class Cart {
         for (Item item : cart) {
             tongtien += item.getSoluong() * item.getDongia();
         }
-        return  tongtien;
+        return tongtien;
     }
 
     public ArrayList<Item> getCart() {
         return cart;
     }
-     public int kichThuoc() {
-        return cart.size();
+
+    public int kichThuoc() {
+        if (cart.size() >0) {
+            return cart.size();
+        } else {
+            return 0;
+        }
     }
 
     @Override
@@ -84,6 +89,5 @@ public class Cart {
         }
         return true;
     }
-    
 
 }

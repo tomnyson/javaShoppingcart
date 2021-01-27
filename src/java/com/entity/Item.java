@@ -5,6 +5,8 @@
  */
 package com.entity;
 
+import java.util.Objects;
+
 /**
  *
  * @author tomnyson
@@ -63,5 +65,36 @@ public class Item {
     public void setDongia(double dongia) {
         this.dongia = dongia;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 59 * hash + this.maSp;
+        hash = 59 * hash + Objects.hashCode(this.image);
+        hash = 59 * hash + this.soluong;
+        hash = 59 * hash + (int) (Double.doubleToLongBits(this.dongia) ^ (Double.doubleToLongBits(this.dongia) >>> 32));
+        hash = 59 * hash + Objects.hashCode(this.title);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Item other = (Item) obj;
+        if (this.maSp != other.maSp) {
+            return false;
+        }
+        return true;
+    }
+    
+    
     
 }

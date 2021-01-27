@@ -48,7 +48,6 @@ static Connection conn = DBhelper.getConnection();
     public static List<Car> findAll(int start, int total) {
         List<Car> list = new ArrayList<Car>();
         try {
-            Connection conn = DBhelper.getConnection();
             String sql = "select * from cars limit ?, ?";
             if (conn != null) {
                 PreparedStatement pst = conn.prepareStatement(sql);
@@ -76,7 +75,6 @@ static Connection conn = DBhelper.getConnection();
     public static Car findProductById(int id) {
         Car car = new Car();
         try {
-            Connection conn = DBhelper.getConnection();
             String sql = "select * from cars where id= ?";
             if (conn != null) {
                 PreparedStatement pst = conn.prepareStatement(sql);
@@ -100,7 +98,6 @@ static Connection conn = DBhelper.getConnection();
 
     public static boolean delete(int id) {
         try {
-            Connection conn = DBhelper.getConnection();
             String sql = "delete from car id= ?";
             if (conn != null) {
                 PreparedStatement pst = conn.prepareStatement(sql);

@@ -17,31 +17,8 @@ and open the template in the editor.
     display: block;
     padding: 5px 0px;
 }
-/*
-.dangnhap input {
-     width: 300px;
-     
-     height: 30px;
-     margin-top: 5px;
+
+.header {
+    display: flex;
+    justify-content: space-between;
 }
-.dangnhap input[type='submit'] {
-    margin-top: 10px;
-    background: #0033ff;
-    color: #fff;
-    text-transform: uppercase;
-}
-.error {
-   color: red !important;
-   margin: 0;
-   padding: 10px 0;
-}
-.dangky {
-    display: block;
-    margin-top: 10px;
-    color: #333;
-    text-decoration: none;
-}
-.dangky:hover {
-    color: green;
-    font-weight: bold;
-}*/
