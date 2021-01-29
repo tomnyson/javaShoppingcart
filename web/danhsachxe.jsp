@@ -4,6 +4,7 @@
     Author     : tomnyson
 --%>
 
+<%@page import="com.entity.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
@@ -23,7 +24,7 @@
     <body>
         <% 
             Cart cart = (Cart) session.getAttribute("cart");
-            String username = (String) session.getAttribute("username");
+            String username = (String)session.getAttribute("username");
             try {
                 if (cart != null) {
                     System.out.println(cart.kichThuoc());

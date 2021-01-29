@@ -100,14 +100,14 @@ public class AuthController extends HttpServlet {
         boolean isAuth = dao.isLogin(user);
          HttpSession session = request.getSession();
         if (isAuth) {
+            User current = UserDao.findUserByEmail(username);
             session.setAttribute("username", username);
-            session.setAttribute("password", password);
+             session.setAttribute("currentUser", current);
             String redirect = request.getParameter("redirect");
             if(redirect != null) {
+                System.out.println("com.controller.AuthController.DangNhap()");
             response.sendRedirect(redirect);
             }
-            System.out.println("redirect"+redirect);
-//            request.getRequestDispatcher("home.jsp").forward(request, response);
         } else {
 //            request.setAttribute("message", "tài khoản hoặc mật khẩu bị sai !!");
              session.setAttribute("message", "tài khoản hoặc mật khẩu bị sai !!");
@@ -148,7 +148,6 @@ public class AuthController extends HttpServlet {
      public void Logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.print("Logout: ");
         HttpSession session = request.getSession();
-        session.removeAttribute("username");
         session.removeAttribute("username");
         response.sendRedirect("login.jsp");
 ;    }
