@@ -79,6 +79,9 @@ public class AuthController extends HttpServlet {
                 case "dangky":
                     DangKy(request, response);
                     break;
+                case "logout":
+                    Logout(request, response);
+                    break;
             }
         }
     }
@@ -97,10 +100,14 @@ public class AuthController extends HttpServlet {
         boolean isAuth = dao.isLogin(user);
          HttpSession session = request.getSession();
         if (isAuth) {
-           
             session.setAttribute("username", username);
             session.setAttribute("password", password);
-            request.getRequestDispatcher("home.jsp").forward(request, response);
+            String redirect = request.getParameter("redirect");
+            if(redirect != null) {
+            response.sendRedirect(redirect);
+            }
+            System.out.println("redirect"+redirect);
+//            request.getRequestDispatcher("home.jsp").forward(request, response);
         } else {
 //            request.setAttribute("message", "tài khoản hoặc mật khẩu bị sai !!");
              session.setAttribute("message", "tài khoản hoặc mật khẩu bị sai !!");
@@ -137,6 +144,16 @@ public class AuthController extends HttpServlet {
         }
     }
 
+        
+     public void Logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.print("Logout: ");
+        HttpSession session = request.getSession();
+        session.removeAttribute("username");
+        session.removeAttribute("username");
+        response.sendRedirect("login.jsp");
+;    }
+
+     
     @Override
     public String getServletInfo() {
         return "Short description";

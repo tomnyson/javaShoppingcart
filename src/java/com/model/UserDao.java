@@ -5,6 +5,7 @@
  */
 package com.model;
 
+import com.entity.Car;
 import com.entity.User;
 import com.until.DBhelper;
 import java.sql.*;
@@ -36,7 +37,7 @@ public class UserDao {
         return false;
     }
 
-    public static  boolean createUser(User user) {
+    public static boolean createUser(User user) {
         try {
             Connection conn = DBhelper.getConnection();
             String sql = "INSERT INTO users (email, password, role) VALUES(?, ?, ?)";
@@ -64,7 +65,7 @@ public class UserDao {
             String sql = "SELECT * FROM users where email= ?";
             if (conn != null) {
                 PreparedStatement pst = conn.prepareStatement(sql);
-                System.out.println("username"+username);
+                System.out.println("username" + username);
                 pst.setString(1, username);
                 ResultSet rs = pst.executeQuery();
                 if (rs.next()) {
@@ -77,5 +78,30 @@ public class UserDao {
             ex.printStackTrace();
         }
         return false;
+    }
+
+    public static User findUserByEmail(String email) {
+        User user = new User();
+        try {
+            Connection conn = DBhelper.getConnection();
+
+            String sql = "SELECT * FROM users where email= ?";
+            if (conn != null) {
+                PreparedStatement pst = conn.prepareStatement(sql);
+                pst.setString(1, email);
+                ResultSet rs = pst.executeQuery();
+
+                if (rs.next()) {
+                    user.setId(rs.getInt("id"));
+                    user.setUsername(rs.getString("email"));
+                    user.setPassword(rs.getString("password"));
+                    user.setRole(rs.getString("role"));
+                }
+                return user;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return user;
     }
 }

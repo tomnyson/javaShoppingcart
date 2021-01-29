@@ -25,6 +25,9 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     </head>
     <body>
+        <%
+            String username = (String) session.getAttribute("username");
+        %>
         <div class="container">
             <div class="py-5 text-center">
                 tomnyson shop
@@ -89,7 +92,7 @@
                     </form>
                 </div>
                 <div class="col-md-8 order-md-1">
-                    <form class="needs-validation" novalidate="">
+                    <form action="cart" method="post" class="needs-validation" novalidate="">
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="firstName">họ và tên</label>
@@ -135,7 +138,18 @@
                             </div>
                         </div>
                         <hr class="mb-4">
-                        <button class="btn btn-primary btn-lg btn-block" type="submit">Thanh toán</button>
+                        <c:choose>
+                            <c:when test="${not empty username}">
+                                <button type="submit" name="cart" value="checkout" class="btn btn-primary btn-lg btn-block" type="submit">Thanh toán</button>
+                            </c:when>
+                            <c:otherwise>
+                                <div class="alert alert-success">
+                                    Đăng nhập để tiếp tục mua hàng <a href="login.jsp?redirect=checkout.jsp">login</a>
+                                </div>
+                            </c:otherwise>
+                        </c:choose>
+
+
                     </form>
                 </div>
             </div>
@@ -172,7 +186,7 @@
                 });
                 $('#tinh').change(function (e) {
                     const matp = $('#tinh').children("option:selected").val()
-                     const textTinh = $('#tinh').children("option:selected").text()
+                    const textTinh = $('#tinh').children("option:selected").text()
                     $.ajax({
                         url: "ajax/district?matp=" + matp,
                         success: function (data) {

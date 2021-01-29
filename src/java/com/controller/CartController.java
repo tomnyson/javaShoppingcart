@@ -8,9 +8,14 @@ package com.controller;
 import com.entity.Car;
 import com.entity.Cart;
 import com.entity.Item;
+import com.entity.Order;
+import com.entity.User;
 import com.model.CarDao;
+import com.model.OrderDao;
+import com.model.UserDao;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -48,24 +53,47 @@ public class CartController extends HttpServlet {
             Cart cart = (Cart) session.getAttribute("cart");
             // lấy thông tin chi tiết của sản phẩm dựa vào mã id đã chuyển ở b1
             String masp = request.getParameter("masp");
-            System.out.println("masp" + masp);
-            // lấy thông tin chi tiết sản phẩm dựa vào id
-            Car car = CarDao.findProductById(Integer.parseInt(masp));
-            // khoi tao item de chuan bi add vao gio hang
-            Item item = new Item(Integer.parseInt(masp), car.getImage(), 1, car.getPrice(), car.getTitle());
-            // check trường hợp cần thêm vào add
-            if (action.equals("add")) {
-                if (cart == null) {
-                    cart = new Cart();
+            if (masp != null) {
+                System.out.println("masp" + masp);
+                // lấy thông tin chi tiết sản phẩm dựa vào id
+                Car car = CarDao.findProductById(Integer.parseInt(masp));
+                // khoi tao item de chuan bi add vao gio hang
+                Item item = new Item(Integer.parseInt(masp), car.getImage(), 1, car.getPrice(), car.getTitle());
+                // check trường hợp cần thêm vào add
+                if (action.equals("add")) {
+                    if (cart == null) {
+                        cart = new Cart();
+                    }
+                    cart.addCart(item);
+                } else if (action.equals("remove")) {
+                    cart.removeCart(item);
                 }
-                cart.addCart(item);
-            } else if (action.equals("remove")) {
-                cart.removeCart(item);
+                // update lại session
+                session.setAttribute("cart", cart);
+                // chuyển đến trang giỏ hàng
+                response.sendRedirect("./giohang.jsp");
             }
-            // update lại session
-            session.setAttribute("cart", cart);
-              // chuyển đến trang giỏ hàng
-            response.sendRedirect("./giohang.jsp");
+            if (action.equals("checkout")) {
+                if (cart != null) {
+                    String Address = request.getParameter("address");
+                    String Note = request.getParameter("note");
+                    String username = (String) session.getAttribute("username");
+                    User currentUser = UserDao.findUserByEmail(username);
+                    ArrayList<Item> cartList = cart.getCart();
+                    // public Order(int id_customer, double total, int status, String addressShipping, String note, ArrayList<Item> items) {
+                    Order order = new Order(28, 200000, 1, "", "", cart.getCart());
+                    boolean isCreateOrder = OrderDao.createOder(order);
+                    if (isCreateOrder) {
+                        session.removeAttribute("cart");
+                        response.sendRedirect("/oto");
+                    }
+                }
+
+                /**
+                 * get info from checkout create order create order list
+                 */
+            }
+
         }
 
     }

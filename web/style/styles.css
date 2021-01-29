@@ -21,4 +21,13 @@ and open the template in the editor.
 .header {
     display: flex;
     justify-content: space-between;
+    margin: 30px 0px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+}
+.logout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
 }

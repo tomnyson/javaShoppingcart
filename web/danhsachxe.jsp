@@ -21,7 +21,9 @@
         <link rel="stylesheet" href="./style/styles.css">
     </head>
     <body>
-        <% Cart cart = (Cart) session.getAttribute("cart");
+        <% 
+            Cart cart = (Cart) session.getAttribute("cart");
+            String username = (String) session.getAttribute("username");
             try {
                 if (cart != null) {
                     System.out.println(cart.kichThuoc());
@@ -49,6 +51,21 @@
                                 ${cart.kichThuoc()}
                             </c:if>
                         </a>
+                        <c:choose>
+                            <c:when test="${not empty username}">
+                                <div class="logout">
+                                Wellcome: <c:out value="${username}"/>
+                               <form  action="AuthController" method="post">
+                                    <button type="submit" name="action" value="logout" class="btn btn-link">
+                                        logout
+                                    </button>
+                                </form>
+                               </div>
+                            </c:when>
+                            <c:otherwise>
+                                <a href="login.jsp?redirect=giohang.jsp">login</a>
+                            </c:otherwise>
+                        </c:choose>
                     </div>
                 </div>
             </div>
