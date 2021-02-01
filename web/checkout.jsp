@@ -4,6 +4,7 @@
     Author     : tomnyson
 --%>
 
+<%@page import="com.entity.User"%>
 <%@page import="com.entity.Car"%>
 <%@page import="com.model.CarDao"%>
 <%@page import="com.entity.Item"%>
@@ -27,9 +28,11 @@
     <body>
         <%
             String username = (String) session.getAttribute("username");
+          
         %>
         <div class="container">
             <div class="py-5 text-center">
+               
                 tomnyson shop
                 <h2>Thanh toán sản phẩm</h2>
                 <div class="alert alert-success">
@@ -121,12 +124,12 @@
                             </div>
                             <div class="col-md-12">
                                 <label for="address">Address</label>
-                                <textarea id="address"  class="form-control" id="address" placeholder="1234 Main St" required=""></textarea>
+                                <textarea id="address"  class="form-control" name="address" id="address" placeholder="1234 Main St" required=""></textarea>
                                 <div class="invalid-feedback"> </div>
                             </div>
                             <div class="col-md-12">
                                 <label for="address">Ghi chú</label>
-                                <textarea  class="form-control" id="address" placeholder="1234 Main St" required=""></textarea>
+                                <textarea  class="form-control" id="address" name="note" placeholder="1234 Main St" required=""></textarea>
                                 <div class="invalid-feedback"> </div>
                             </div>
                         </div>
@@ -154,12 +157,12 @@
                 </div>
             </div>
             <footer class="my-5 pt-5 text-muted text-center text-small">
-                <p class="mb-1">© 2017-2019 Company Name</p>
+                <p class="mb-1">© 2020 java4 lập trình </p>
                 <ul class="list-inline">
                     <li class="list-inline-item"><a href="#">Privacy</a></li>
                     <li class="list-inline-item"><a href="#">Terms</a></li>
                     <li class="list-inline-item"><a href="#">Support</a></li>
-                </ul>
+                </ul>web
             </footer>
         </div>
         <script>

@@ -26,8 +26,44 @@ and open the template in the editor.
     border-bottom: 1px solid #ccc;
 }
 .logout {
-    display: flex;
     justify-content: center;
     align-items: center;
-  
+    align-items: center;
+
+}
+
+.gallery-wrap .img-big-wrap img {
+    height: 450px;
+    width: auto;
+    display: inline-block;
+    cursor: zoom-in;
+}
+
+
+.gallery-wrap .img-small-wrap .item-gallery {
+    width: 60px;
+    height: 60px;
+    border: 1px solid #ddd;
+    margin: 7px 2px;
+    display: inline-block;
+    overflow: hidden;
+}
+
+.gallery-wrap .img-small-wrap {
+    text-align: center;
+}
+.gallery-wrap .img-small-wrap img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+    cursor: zoom-in;
+}
+.custom-footer {
+    padding: 20px 0;
+    background: #ccc;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
 }

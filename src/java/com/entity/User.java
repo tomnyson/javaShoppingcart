@@ -6,12 +6,12 @@
 package com.entity;
 
 import org.mindrot.jbcrypt.BCrypt;
-
+import java.io.Serializable;
 /**
  *
  * @author tomnyson
  */
-public class User {
+public class User implements Serializable {
 
     public String username;
     public String password;

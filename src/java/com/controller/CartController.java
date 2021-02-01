@@ -75,17 +75,28 @@ public class CartController extends HttpServlet {
             }
             if (action.equals("checkout")) {
                 if (cart != null) {
+                    // lấy info từ bên checkout form qua 
                     String Address = request.getParameter("address");
                     String Note = request.getParameter("note");
                     String username = (String) session.getAttribute("username");
+                    // get user detail from session
                     User currentUser = UserDao.findUserByEmail(username);
+                    //get list item from cart;
                     ArrayList<Item> cartList = cart.getCart();
                     // public Order(int id_customer, double total, int status, String addressShipping, String note, ArrayList<Item> items) {
-                    Order order = new Order(28, 200000, 1, "", "", cart.getCart());
+                    //create order chính 
+                    Order order = new Order(currentUser.getId(), cart.TotalOrder(), 1, Address, Note, cart.getCart());
+//                    Order order = new Order();
+//                    order.setId(0);
+//                    order.set
+
+                    // gọi hàm tạo order
                     boolean isCreateOrder = OrderDao.createOder(order);
                     if (isCreateOrder) {
                         session.removeAttribute("cart");
-                        response.sendRedirect("/oto");
+                        // send email
+
+                        response.sendRedirect("./confirm.jsp");
                     }
                 }
 

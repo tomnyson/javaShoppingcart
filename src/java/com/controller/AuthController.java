@@ -10,6 +10,7 @@ import com.model.UserDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -98,19 +99,29 @@ public class AuthController extends HttpServlet {
         UserDao dao = new UserDao();
         User user = new User(username, password);
         boolean isAuth = dao.isLogin(user);
-         HttpSession session = request.getSession();
+        HttpSession session = request.getSession();
+
         if (isAuth) {
             User current = UserDao.findUserByEmail(username);
+            Cookie c1 = new Cookie("userName", current.getUsername());
+            Cookie c2 = new Cookie("role", current.getRole());
+            Cookie c3 = new Cookie("userId", Integer.toString(current.getId()));
+            c1.setMaxAge(60 * 60 * 24 * 365 * 10);
+            c2.setMaxAge(60 * 60 * 24 * 365 * 10);
+            c3.setMaxAge(60 * 60 * 24 * 365 * 10);
+            response.addCookie(c1);
+            response.addCookie(c2);
+            response.addCookie(c3);
             session.setAttribute("username", username);
-             session.setAttribute("currentUser", current);
+            session.setAttribute("currentUser", current);
             String redirect = request.getParameter("redirect");
-            if(redirect != null) {
-                System.out.println("com.controller.AuthController.DangNhap()");
-            response.sendRedirect(redirect);
+            if (redirect != null && !redirect.isEmpty()) {
+                response.sendRedirect(redirect);
             }
+            response.sendRedirect("./oto");
         } else {
 //            request.setAttribute("message", "tài khoản hoặc mật khẩu bị sai !!");
-             session.setAttribute("message", "tài khoản hoặc mật khẩu bị sai !!");
+            session.setAttribute("message", "tài khoản hoặc mật khẩu bị sai !!");
             response.sendRedirect("login.jsp");
 //            request.getRequestDispatcher("login.jsp").forward(request, response);
         }
@@ -120,7 +131,7 @@ public class AuthController extends HttpServlet {
         System.out.print("DangKy: ");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-       
+
         User user = new User(username, password, "user");
         boolean isExist = UserDao.isExistUser(username);
         System.out.print("isExist:" + isExist);
@@ -144,15 +155,14 @@ public class AuthController extends HttpServlet {
         }
     }
 
-        
-     public void Logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void Logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.print("Logout: ");
         HttpSession session = request.getSession();
         session.removeAttribute("username");
         response.sendRedirect("login.jsp");
-;    }
+        ;
+    }
 
-     
     @Override
     public String getServletInfo() {
         return "Short description";

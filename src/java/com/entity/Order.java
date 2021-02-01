@@ -15,13 +15,16 @@ import java.util.Date;
  */
 public class Order {
     int id;
-    int id_customer;
-    double total;
+    int id_customer; // user id
+    double total; // tong gia tri don hang
     int status;
     String addressShipping;
     String note;
     ArrayList<Item> items;
     Date createAt;
+
+    public Order() {
+    }
 
     public Order(int id_customer, double total, int status, String addressShipping, String note, ArrayList<Item> items) {
         this.id_customer = id_customer;
@@ -30,45 +33,6 @@ public class Order {
         this.addressShipping = addressShipping;
         this.note = note;
         this.items = items;
-    }
-
-    public Order(int id, int id_customer, double total, int status, String addressShipping, String note, ArrayList<Item> items, Date createAt) {
-        this.id = id;
-        this.id_customer = id_customer;
-        this.total = total;
-        this.status = status;
-        this.addressShipping = addressShipping;
-        this.note = note;
-        this.items = items;
-        this.createAt = createAt;
-    }
-
-    public String getAddressShipping() {
-        return addressShipping;
-    }
-
-    public String getNote() {
-        return note;
-    }
-
-    public ArrayList<Item> getItems() {
-        return items;
-    }
-
-    public void setAddressShipping(String addressShipping) {
-        this.addressShipping = addressShipping;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
-    }
-
-    public void setItems(ArrayList<Item> items) {
-        this.items = items;
-    }
-    
-
-    public Order() {
     }
 
     public int getId() {
@@ -85,6 +49,18 @@ public class Order {
 
     public int getStatus() {
         return status;
+    }
+
+    public String getAddressShipping() {
+        return addressShipping;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public ArrayList<Item> getItems() {
+        return items;
     }
 
     public Date getCreateAt() {
@@ -107,8 +83,20 @@ public class Order {
         this.status = status;
     }
 
+    public void setAddressShipping(String addressShipping) {
+        this.addressShipping = addressShipping;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public void setItems(ArrayList<Item> items) {
+        this.items = items;
+    }
+
     public void setCreateAt(Date createAt) {
         this.createAt = createAt;
     }
-    
+
 }

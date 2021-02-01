@@ -38,10 +38,18 @@
 
 
         %>
-            <c:import  url="include/header.jsp"/>
-            <div class="container">
+        <c:import  url="include/header.jsp"/>
+        <div class="container">
             <div class="row">
-                <div class="col col-sm-12">
+                <div class="col com-sn-3">
+                    <div class="list-group">
+                        <h3>Thương hiệu xe</h3>
+                        <a href="#" class="list-group-item list-group-item-action">First item</a>
+                        <a href="#" class="list-group-item list-group-item-action">Second item</a>
+                        <a href="#" class="list-group-item list-group-item-action">Third item</a>
+                    </div>
+                </div>
+                <div class="col col-sm-8">
                     <div class="row">
                         <c:forEach items="${lscar}" var="car">
 
@@ -76,17 +84,19 @@
                                 </div>
                             </div>
                         </c:forEach>
+                        <c:if test="${not empty lscar}">
+                            <ul class="pagination">
+                                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                                    <c:forEach var="i" begin="1" end="28">
+                                    <li class="page-item ${i == active ? "active" : ""  }"><a class="page-link" href="oto?page=${i}">${i}</a></li>
+                                    </c:forEach>
+                                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                            </ul>
+                        </c:if>
                     </div>
                 </div>
-                <ul class="pagination">
-                    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                        <c:forEach var="i" begin="1" end="28">
-                        <li class="page-item ${i == active ? "active" : ""  }"><a class="page-link" href="oto?page=${i}">${i}</a></li>
-                        </c:forEach>
-                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                </ul>
             </div>
-            </div>
-             <c:import  url="include/footer.jsp"/>
+        </div>
+        <c:import  url="include/footer.jsp"/>
     </body>
 </html>
