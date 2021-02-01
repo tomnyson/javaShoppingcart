@@ -5,6 +5,9 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="com.entity.Cart" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -16,37 +19,40 @@
     </head>
     <!------ Include the above in your HEAD tag ---------->
     <body>
+          <c:import  url="include/header.jsp"/>
         <div class="container">
+           
             <div class="card">
                 <div class="row">
                     <aside class="col-sm-5 border-right">
                         <article class="gallery-wrap"> 
                             <div class="img-big-wrap">
-                                <div> <a href="#"><img src="https://s9.postimg.org/tupxkvfj3/image.jpg"></a></div>
+                                <div> <a href="#"><img src="${carDetail.getImage()}" width="300px"/></a></div>
                             </div> <!-- slider-product.// -->
                             <div class="img-small-wrap">
-                                <div class="item-gallery"> <img src="https://s9.postimg.org/tupxkvfj3/image.jpg"> </div>
-                                <div class="item-gallery"> <img src="https://s9.postimg.org/tupxkvfj3/image.jpg"> </div>
-                                <div class="item-gallery"> <img src="https://s9.postimg.org/tupxkvfj3/image.jpg"> </div>
-                                <div class="item-gallery"> <img src="https://s9.postimg.org/tupxkvfj3/image.jpg"> </div>
+                                <div class="item-gallery"> <img src="${carDetail.getImage()}"> </div>
+                                <div class="item-gallery"> <img src="${carDetail.getImage()}"> </div>
                             </div> <!-- slider-nav.// -->
                         </article> <!-- gallery-wrap .end// -->
                     </aside>
                     <aside class="col-sm-7">
                         <article class="card-body p-5">
-                            <h3 class="title mb-3">Original Version of Some product name</h3>
+                            <h3 class="title mb-3">${carDetail.getTitle()}</h3>
 
                             <p class="price-detail-wrap"> 
                                 <span class="price h3 text-warning"> 
-                                    <span class="currency">US $</span><span class="num">1299</span>
+                                    <span class="currency">VNĐ</span><span class="num">
+                                         <fmt:formatNumber type="number" maxFractionDigits="2" value="${carDetail.getPrice()}" /> VNĐ
+                                    </span>
                                 </span> 
-                                <span>/per kg</span> 
                             </p> <!-- price-detail-wrap .// -->
                             <dl class="item-property">
                                 <dt>Description</dt>
-                                <dd><p>Here goes description consectetur adipisicing elit, sed do eiusmod
-                                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                        quis nostrud exercitation ullamco </p></dd>
+                                <dd><p>${carDetail.getDescription()}</p></dd>
+                            </dl>
+                             <dl class="item-property">
+                                <dt>contact</dt>
+                                <dd><p>${carDetail.getContact()}</p></dd>
                             </dl>
                             <dl class="param param-feature">
                                 <dt>Model#</dt>
@@ -60,44 +66,11 @@
                                 <dt>Delivery</dt>
                                 <dd>Russia, USA, and Europe</dd>
                             </dl>  <!-- item-property-hor .// -->
-
                             <hr>
-                            <div class="row">
-                                <div class="col-sm-5">
-                                    <dl class="param param-inline">
-                                        <dt>Quantity: </dt>
-                                        <dd>
-                                            <select class="form-control form-control-sm" style="width:70px;">
-                                                <option> 1 </option>
-                                                <option> 2 </option>
-                                                <option> 3 </option>
-                                            </select>
-                                        </dd>
-                                    </dl>  <!-- item-property .// -->
-                                </div> <!-- col.// -->
-                                <div class="col-sm-7">
-                                    <dl class="param param-inline">
-                                        <dt>Size: </dt>
-                                        <dd>
-                                            <label class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-                                                <span class="form-check-label">SM</span>
-                                            </label>
-                                            <label class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-                                                <span class="form-check-label">MD</span>
-                                            </label>
-                                            <label class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-                                                <span class="form-check-label">XXL</span>
-                                            </label>
-                                        </dd>
-                                    </dl>  <!-- item-property .// -->
-                                </div> <!-- col.// -->
+                            <a href="#" class="btn btn-lg btn-primary text-uppercase"> Mua Ngay</a>
                             </div> <!-- row.// -->
                             <hr>
-                            <a href="#" class="btn btn-lg btn-primary text-uppercase"> Buy now </a>
-                            <a href="#" class="btn btn-lg btn-outline-primary text-uppercase"> <i class="fas fa-shopping-cart"></i> Add to cart </a>
+                           
                         </article> <!-- card-body.// -->
                     </aside> <!-- col.// -->
                 </div> <!-- row.// -->
@@ -105,13 +78,6 @@
 
 
         </div>
-        <!--container.//-->
-        <footer class="my-5 pt-5 text-muted text-center text-small">
-            <p class="mb-1">© 2020 java4 lập trình </p>
-            <ul class="list-inline">
-                <li class="list-inline-item"><a href="mailto:tabletkindfire@gmail.com">contact</a></li>
-                <li class="list-inline-item"><a href="https://www.facebook.com/hongsonm/">Support</a></li>
-            </ul>web
-        </footer>
     </body>
+     <c:import  url="include/footer.jsp"/>
 </html>

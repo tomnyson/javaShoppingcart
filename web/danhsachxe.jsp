@@ -38,15 +38,26 @@
 
 
         %>
-            <c:import  url="include/header.jsp"/>
-            <div class="container">
+        <c:import  url="include/header.jsp"/>
+        <div class="container">
             <div class="row">
-                <div class="col col-sm-12">
+                <div class="col col-sm-2">
+                    <h3>Danh mục</h3>
+                    <div class="list-group">
+                        <c:forEach items="${catCar}" var="cat">
+                              <a href="danhmuc?id=${cat.getId()}" class="list-group-item list-group-item-action">${cat.getName()}</a>
+                        </c:forEach>
+                    </div>
+                </div>
+                <div class="col col-sm-10">
                     <div class="row">
                         <c:forEach items="${lscar}" var="car">
 
                             <div class="col-sm-4">
-                                <div class="card"> <img src="${car.getImage()}" class="card-img-top" height="200px" width="100%">
+                                <div class="card"> 
+                                    <a href="oto?id=${car.getId()}">
+                                        <img src="${car.getImage()}" class="card-img-top" height="200px" width="100%">
+                                    </a>
                                     <div class="card-body pt-0 px-0">
                                         <div class="d-flex flex-row justify-content-between mb-0 px-3"> <small class="text-muted mt-1">Giá Bán</small>
                                             <h6>
@@ -86,7 +97,7 @@
                     <li class="page-item"><a class="page-link" href="#">Next</a></li>
                 </ul>
             </div>
-            </div>
-             <c:import  url="include/footer.jsp"/>
+        </div>
+        <c:import  url="include/footer.jsp"/>
     </body>
 </html>
