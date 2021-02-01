@@ -85,6 +85,7 @@ static Connection conn = DBhelper.getConnection();
                     car.setId(resultSet.getInt("id"));
                     car.setTitle(resultSet.getString("title"));
                     car.setDescription(resultSet.getString("description"));
+                     car.setContact(resultSet.getString("description"));
                     car.setImage(resultSet.getString("image"));
                     car.setPrice(resultSet.getDouble("price"));
                     car.setUrl(resultSet.getString("url"));
@@ -94,6 +95,33 @@ static Connection conn = DBhelper.getConnection();
             ex.printStackTrace();
         }
         return car;
+    }
+    
+    public static List<Car> findProductByCategory(int catId) {
+         List<Car> list = new ArrayList<Car>();
+        try {
+            String sql = "select * from cars inner join category on cars.categoryId = category.id where cars.categoryId = ?";
+            if (conn != null) {
+                PreparedStatement pst = conn.prepareStatement(sql);
+                pst.setInt(1, catId);
+                ResultSet resultSet = pst.executeQuery();
+                while (resultSet.next()) {
+                     Car car = new Car();
+                     System.out.println("info" + resultSet.getInt("cars.id"));
+                    car.setId(resultSet.getInt("cars.id"));
+                    car.setTitle(resultSet.getString("cars.title"));
+                    car.setDescription(resultSet.getString("cars.description"));
+                     car.setContact(resultSet.getString("cars.contact"));
+                    car.setImage(resultSet.getString("cars.image"));
+                    car.setPrice(resultSet.getDouble("cars.price"));
+                    car.setUrl(resultSet.getString("cars.url"));
+                    list.add(car);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return list;
     }
 
     public static boolean delete(int id) {

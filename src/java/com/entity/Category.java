@@ -10,7 +10,20 @@ package com.entity;
  * @author tomnyson
  */
 public class Category  {
-    public int id;
+  public int id;
+  public String name;
+  public String description;
+  public String image;
+
+    public Category(int id, String name, String description, String image) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.image = image;
+    }
+
+    public Category() {
+    }
 
     public void setId(int id) {
         this.id = id;
@@ -22,6 +35,10 @@ public class Category  {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public int getId() {
@@ -36,13 +53,8 @@ public class Category  {
         return description;
     }
 
-    public Category(String name, String description) {
-        this.name = name;
-        this.description = description;
+    public String getImage() {
+        return image;
     }
-
-    public Category() {
-    }
-    public String name;
-    public String description;
+  
 }
