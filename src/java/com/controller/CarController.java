@@ -6,7 +6,9 @@
 package com.controller;
 
 import com.entity.Car;
+import com.entity.Category;
 import com.model.CarDao;
+import com.model.CategoryDao;
 import com.until.Helper;
 import java.io.File;
 import java.io.IOException;
@@ -27,7 +29,7 @@ import javax.servlet.http.Part;
  *
  * @author tomnyson
  */
-@WebServlet(urlPatterns = {"/oto", "/home"})
+@WebServlet(urlPatterns = {"/oto", "/danhmuc", "/home"})
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
         maxFileSize = 1024 * 1024 * 50, // 50MB
         maxRequestSize = 1024 * 1024 * 50)
@@ -48,10 +50,34 @@ public class CarController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+        String path = request.getServletPath();
         try {
-            
             List<Car> lscar = new ArrayList<Car>();
+            List<Category> catCar = new ArrayList<Category>();
+            String id = request.getParameter("id");
+            if (path.contains("danhmuc")) {
+                lscar = CarDao.findProductByCategory(Integer.parseInt(id));
+                request.setAttribute("lscar", lscar);
+                catCar = CategoryDao.findAll();
+                request.setAttribute("catCar", catCar);
+                RequestDispatcher dis = this.getServletContext().getRequestDispatcher("/danhsachxe.jsp");
+                dis.forward(request, response);
+            }
+            // load chi tiet san pham
+
             String page = request.getParameter("page");
+            if (id != null && !id.isEmpty()) {
+                //load chi tiet san pham
+                int idCar = Integer.parseInt(id);
+                // lay chiet san phan du vao id cua car
+                Car carDetail = CarDao.findProductById(idCar);
+
+                request.setAttribute("carDetail", carDetail);
+                RequestDispatcher dis = this.getServletContext().getRequestDispatcher("/chitietxe.jsp");
+                dis.forward(request, response);
+            }
+            //load tat cac san pham
+
             int currentPage = 1;
             if (page != null) {
                 currentPage = Integer.parseInt(page);
@@ -60,7 +86,10 @@ public class CarController extends HttpServlet {
             } else {
                 lscar = CarDao.findAll(1, 20);
             }
+            catCar = CategoryDao.findAll();
             request.setAttribute("lscar", lscar);
+            request.setAttribute("catCar", catCar);
+            System.out.println("cat" + catCar.size());
             RequestDispatcher dis = this.getServletContext().getRequestDispatcher("/danhsachxe.jsp");
             dis.forward(request, response);
         } catch (Exception e) {
@@ -103,7 +132,7 @@ public class CarController extends HttpServlet {
             if (!dir.exists()) { // tạo nếu chưa tồn tại
                 dir.mkdirs();
             }
-            System.out.println("request.getServletContext().getRealPath(\"/upload\")"+request.getServletContext().getRealPath("/upload"));
+            System.out.println("request.getServletContext().getRealPath(\"/upload\")" + request.getServletContext().getRealPath("/upload"));
             Part mainImage = request.getPart("mainImage");
             File photoFile = new File(dir, mainImage.getSubmittedFileName());
             mainImage.write(photoFile.getAbsolutePath());
