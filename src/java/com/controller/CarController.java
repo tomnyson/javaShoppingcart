@@ -89,7 +89,6 @@ public class CarController extends HttpServlet {
             catCar = CategoryDao.findAll();
             request.setAttribute("lscar", lscar);
             request.setAttribute("catCar", catCar);
-            System.out.println("cat" + catCar.size());
             RequestDispatcher dis = this.getServletContext().getRequestDispatcher("/danhsachxe.jsp");
             dis.forward(request, response);
         } catch (Exception e) {

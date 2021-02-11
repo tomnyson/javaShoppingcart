@@ -42,12 +42,14 @@
         <div class="container">
             <div class="row">
                 <div class="col col-sm-2">
-                    <h3>Danh mục</h3>
-                    <div class="list-group">
+                    <h5>Danh mục</h5>
+                   <ul class="list-group">
                         <c:forEach items="${catCar}" var="cat">
-                              <a href="danhmuc?id=${cat.getId()}" class="list-group-item list-group-item-action">${cat.getName()}</a>
+                            <a href="danhmuc?id=${cat.getId()}" class="list-group-item list-group-item-action">
+                                ${cat.getName()}
+                             </a>
                         </c:forEach>
-                    </div>
+                   </ul>
                 </div>
                 <div class="col col-sm-10">
                     <div class="row">

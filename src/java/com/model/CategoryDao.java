@@ -18,17 +18,19 @@ import java.util.List;
  * @author tomnyson
  */
 public class CategoryDao {
-     static Connection conn = DBhelper.getConnection();
-      
+
+    static Connection conn = DBhelper.getConnection();
+
     public static boolean create(Category product) {
         try {
             Connection conn = DBhelper.getConnection();
-            String sql = "INSERT INTO category (name, description)"
-                    + " VALUES(?, ?)";
+            String sql = "INSERT INTO category (name, description, image)"
+                    + " VALUES(?, ?, ?)";
             if (conn != null) {
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1, product.getName());
                 pst.setString(2, product.getDescription());
+                pst.setString(3, product.getImage());
                 int result = pst.executeUpdate();
                 if (result > 0) {
                     return true;
@@ -54,6 +56,7 @@ public class CategoryDao {
                     category.setId(resultSet.getInt("id"));
                     category.setName(resultSet.getString("name"));
                     category.setDescription(resultSet.getString("description"));
+                    category.setImage(resultSet.getString("image"));
                     list.add(category);
                 }
             }
@@ -63,9 +66,8 @@ public class CategoryDao {
         return list;
     }
 
-    public static List<Category> findProductById(int id) {
-         List<Category> list = new ArrayList<Category>();
-        
+    public static Category findCategoryById(int id) {
+        Category cat = new Category();
         try {
             String sql = "select * from category where id= ?";
             if (conn != null) {
@@ -73,22 +75,21 @@ public class CategoryDao {
                 pst.setInt(1, id);
                 ResultSet resultSet = pst.executeQuery();
                 while (resultSet.next()) {
-                    Category category = new Category();
-                    category.setId(resultSet.getInt("id"));
-                    category.setName(resultSet.getString("name"));
-                    category.setDescription(resultSet.getString("description"));
-                    list.add(category);
+                    cat.setId(resultSet.getInt("id"));
+                    cat.setName(resultSet.getString("name"));
+                    cat.setDescription(resultSet.getString("description"));
+                    cat.setImage(resultSet.getString("image"));
                 }
             }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return list;
+        return cat;
     }
 
     public static boolean delete(int id) {
         try {
-            String sql = "delete from category id= ?";
+            String sql = "delete from category where id= ?";
             if (conn != null) {
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setInt(1, id);
@@ -106,12 +107,13 @@ public class CategoryDao {
 
     public static boolean update(Category category) {
         try {
-            String sql = "UPDATE product set name = ?, description = ?, price = ?, stock =?, discount = ?, createAt =?, categoryId= ? where id= ?";
+            String sql = "UPDATE category set name = ?, description = ?, image = ? where id= ?";
             if (conn != null) {
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1, category.getName());
                 pst.setString(2, category.getDescription());
-                pst.setInt(6, category.getId());
+                pst.setString(3, category.getImage());
+                pst.setInt(4, category.getId());
                 int result = pst.executeUpdate();
                 if (result > 0) {
                     return true;

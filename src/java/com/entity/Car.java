@@ -18,6 +18,7 @@ public class Car implements java.io.Serializable {
     private Double price;
     private String description;
     private String contact;
+    private int categoryId;
 
     public Car(String title, String image, String url, Double price, String description, String contact) {
         this.title = title;
@@ -28,6 +29,17 @@ public class Car implements java.io.Serializable {
         this.contact = contact;
     }
 
+    public Car(int id, String image, String title, String url, Double price, String description, String contact, int categoryId) {
+        this.id = id;
+        this.image = image;
+        this.title = title;
+        this.url = url;
+        this.price = price;
+        this.description = description;
+        this.contact = contact;
+        this.categoryId = categoryId;
+    }
+
     public Car(int id, String title, String image, String url, Double price, String description, String contact) {
         this.id = id;
         this.image = image;
@@ -36,6 +48,16 @@ public class Car implements java.io.Serializable {
         this.price = price;
         this.description = description;
         this.contact = contact;
+    }
+
+    public Car(String image, String title, String url, Double price, String description, String contact, int categoryId) {
+        this.image = image;
+        this.title = title;
+        this.url = url;
+        this.price = price;
+        this.description = description;
+        this.contact = contact;
+        this.categoryId = categoryId;
     }
 
     public int getId() {
@@ -95,6 +117,14 @@ public class Car implements java.io.Serializable {
     }
 
     public Car() {
+    }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
 
 }

@@ -18,12 +18,14 @@ import java.util.List;
  * @author tomnyson
  */
 public class CarDao {
-static Connection conn = DBhelper.getConnection();
+
+    static Connection conn = DBhelper.getConnection();
+
     public static boolean create(Car product) {
         try {
-            
-            String sql = "INSERT INTO cars (title, description, image, contact, url, price)"
-                    + " VALUES(?, ?,?,?,?,?)";
+
+            String sql = "INSERT INTO cars (title, description, image, contact, url, price, categoryId)"
+                    + " VALUES(?, ?, ?, ?, ?, ?,?)";
             if (conn != null) {
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1, product.getTitle());
@@ -32,6 +34,7 @@ static Connection conn = DBhelper.getConnection();
                 pst.setString(4, product.getContact());
                 pst.setString(5, product.getUrl());
                 pst.setDouble(6, product.getPrice());
+                pst.setInt(7, product.getCategoryId());
                 int result = pst.executeUpdate();
                 if (result > 0) {
                     return true;
@@ -51,8 +54,8 @@ static Connection conn = DBhelper.getConnection();
             String sql = "select * from cars limit ?, ?";
             if (conn != null) {
                 PreparedStatement pst = conn.prepareStatement(sql);
-                pst.setInt(1, (start-1)*total);
-                 pst.setInt(2, total);
+                pst.setInt(1, (start - 1) * total);
+                pst.setInt(2, total);
                 ResultSet resultSet = pst.executeQuery();
                 while (resultSet.next()) {
                     Car car = new Car();
@@ -85,7 +88,7 @@ static Connection conn = DBhelper.getConnection();
                     car.setId(resultSet.getInt("id"));
                     car.setTitle(resultSet.getString("title"));
                     car.setDescription(resultSet.getString("description"));
-                     car.setContact(resultSet.getString("description"));
+                    car.setContact(resultSet.getString("description"));
                     car.setImage(resultSet.getString("image"));
                     car.setPrice(resultSet.getDouble("price"));
                     car.setUrl(resultSet.getString("url"));
@@ -96,9 +99,9 @@ static Connection conn = DBhelper.getConnection();
         }
         return car;
     }
-    
+
     public static List<Car> findProductByCategory(int catId) {
-         List<Car> list = new ArrayList<Car>();
+        List<Car> list = new ArrayList<Car>();
         try {
             String sql = "select * from cars inner join category on cars.categoryId = category.id where cars.categoryId = ?";
             if (conn != null) {
@@ -106,12 +109,12 @@ static Connection conn = DBhelper.getConnection();
                 pst.setInt(1, catId);
                 ResultSet resultSet = pst.executeQuery();
                 while (resultSet.next()) {
-                     Car car = new Car();
-                     System.out.println("info" + resultSet.getInt("cars.id"));
+                    Car car = new Car();
+                    System.out.println("info" + resultSet.getInt("cars.id"));
                     car.setId(resultSet.getInt("cars.id"));
                     car.setTitle(resultSet.getString("cars.title"));
                     car.setDescription(resultSet.getString("cars.description"));
-                     car.setContact(resultSet.getString("cars.contact"));
+                    car.setContact(resultSet.getString("cars.contact"));
                     car.setImage(resultSet.getString("cars.image"));
                     car.setPrice(resultSet.getDouble("cars.price"));
                     car.setUrl(resultSet.getString("cars.url"));
@@ -126,7 +129,7 @@ static Connection conn = DBhelper.getConnection();
 
     public static boolean delete(int id) {
         try {
-            String sql = "delete from car id= ?";
+            String sql = "delete from cars id= ?";
             if (conn != null) {
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setInt(1, id);
@@ -144,8 +147,8 @@ static Connection conn = DBhelper.getConnection();
 
     public static boolean update(Car car) {
         try {
-            Connection conn = DBhelper.getConnection();
-            String sql = "UPDATE car set c = ?, description = ?, price = ?, stock =?, discount = ?, createAt =?, categoryId= ? where id= ?";
+            String sql = "update cars set title = ?, description = ? , image = ?, "
+                    + "contact = ?, url = ?, price = ?, categoryId = ? where id = ?";
             if (conn != null) {
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1, car.getTitle());
@@ -153,6 +156,9 @@ static Connection conn = DBhelper.getConnection();
                 pst.setString(3, car.getImage());
                 pst.setString(4, car.getContact());
                 pst.setString(5, car.getUrl());
+                pst.setDouble(6, car.getPrice());
+                pst.setInt(7, car.getCategoryId());
+                pst.setInt(8, car.getId());
                 int result = pst.executeUpdate();
                 if (result > 0) {
                     return true;

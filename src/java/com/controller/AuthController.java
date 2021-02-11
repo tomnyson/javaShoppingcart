@@ -159,6 +159,7 @@ public class AuthController extends HttpServlet {
         System.out.print("Logout: ");
         HttpSession session = request.getSession();
         session.removeAttribute("username");
+        session.removeAttribute("currentUser");
         response.sendRedirect("login.jsp");
         ;
     }
