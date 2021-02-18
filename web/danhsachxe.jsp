@@ -8,6 +8,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <%@ page import="com.entity.Cart" %>
 
 <!DOCTYPE html>
@@ -43,13 +44,13 @@
             <div class="row">
                 <div class="col col-sm-2">
                     <h5>Danh mục</h5>
-                   <ul class="list-group">
+                    <ul class="list-group">
                         <c:forEach items="${catCar}" var="cat">
                             <a href="danhmuc?id=${cat.getId()}" class="list-group-item list-group-item-action">
                                 ${cat.getName()}
-                             </a>
+                            </a>
                         </c:forEach>
-                   </ul>
+                    </ul>
                 </div>
                 <div class="col col-sm-10">
                     <div class="row">
@@ -58,7 +59,16 @@
                             <div class="col-sm-4">
                                 <div class="card"> 
                                     <a href="oto?id=${car.getId()}">
-                                        <img src="${car.getImage()}" class="card-img-top" height="200px" width="100%">
+                                        <c:if test="${not empty car.getImage()}">
+                                            <c:choose>
+                                                <c:when test = "${fn:contains(car.getImage(), 'http')}">
+                                                    <img  src="${car.getImage()}" width="100%" height="200px"/>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <img src="${pageContext.request.contextPath}/upload/${car.getImage()}" width="100%" height="200"/>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </c:if>
                                     </a>
                                     <div class="card-body pt-0 px-0">
                                         <div class="d-flex flex-row justify-content-between mb-0 px-3"> <small class="text-muted mt-1">Giá Bán</small>
@@ -70,11 +80,11 @@
                                             <div class="d-flex flex-column"><span class="text-muted"> ${car.getTitle()}</span></div>
                                         </div>
                                         <div class="d-flex flex-row justify-content-between p-3 mid">
-                                            <div class="d-flex flex-column"><small class="text-muted mb-1">Mô Tả</small>
+                                            <div class="d-flex flex-column"><small class="text-muted mb-1 short-text">Mô Tả</small>
                                                 <p>${car.getDescription()}</p>
                                             </div>
                                         </div>
-                                        <div class="d-flex flex-column"><small class="text-muted mb-1">Liên hệ</small>
+                                        <div class="d-flex flex-column"><small class="text-muted mb-1 short-text">Liên hệ</small>
                                             <p>${car.getContact()}</p>
                                         </div>
                                     </div> 

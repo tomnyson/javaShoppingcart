@@ -11,7 +11,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>${title}</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -20,20 +20,22 @@
         <script src="https://cdn.ckeditor.com/4.15.1/standard/ckeditor.js"></script>
     </head>
     <body>
-        <div class="container-fluid">
-            <nav class="navbar navbar-light bg-light">
-                <a class="navbar-brand" href="#">ADMIN</a>
-                <div>
-                    <span  href="#">Wellcome: admin</span> |
-                    <a href="#">logout</a>
-                </div>
+        <nav class="navbar navbar-light bg-light">
+            <a class="navbar-brand" href="#">ADMIN</a>
+            <div>
+                <span  href="#">Wellcome: admin</span> |
+                <a href="#">logout</a>
+            </div>
 
-            </nav>
+        </nav>
+        <div class="container-fluid">
             <div class="row">
                 <div class="col col-md-2">
                     <ul class="list-group">
-                        <li class="list-group-item"> <a href="${pageContext.request.contextPath}/admin/category"> Danh Mục</a></li>
-                        <li class="list-group-item"><a href="admin/product">Sản phẩm</a></li>
+                        <li class="list-group-item ${tabSelected == 'danhmuc' ? 'active-tab' : ''}"><a href="${pageContext.request.contextPath}/admin/category"> Danh Mục</a></li>
+                        <li class="list-group-item ${tabSelected == 'sanpham' ? 'active-tab' : ''}"><a href="${pageContext.request.contextPath}/admin/product">Sản phẩm</a></li>
+                        <li class="list-group-item ${tabSelected == 'user' ? 'active-tab' : ''}"><a href="${pageContext.request.contextPath}/admin/user">Users</a></li>
+                        <li class="list-group-item ${tabSelected == 'order' ? 'active-tab' : ''}"><a href="${pageContext.request.contextPath}/admin/order">Orders</a></li>
                     </ul>
                 </div>
                 <div class="col col-md-8">
@@ -56,6 +58,7 @@
                         </div>
                     </div>
                 </div>
+                <c:import url="../include/footer.jsp"/>
             </div>
             <script src="https://cdn.ckeditor.com/4.15.1/standard/ckeditor.js"></script>
             <script>

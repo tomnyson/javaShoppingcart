@@ -79,3 +79,10 @@ and open the template in the editor.
 #navbarSupportedContent {
     justify-content: space-between
 }
+
+.short-text {
+  white-space: nowrap;
+  max-width: 300px; 
+  overflow: hidden;
+  text-overflow: ellipsis; 
+}

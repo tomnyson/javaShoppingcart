@@ -8,6 +8,7 @@ package com.model;
 import com.entity.Car;
 import com.entity.Item;
 import com.entity.Order;
+import com.entity.OrderItem;
 import static com.model.CarDao.conn;
 import com.until.DBhelper;
 import java.sql.Statement;
@@ -15,6 +16,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -80,5 +82,56 @@ public class OrderDao {
             ex.printStackTrace();
         }
         return false;
+    }
+
+    public static List<Order> findAll(int start, int total) {
+        List<Order> list = new ArrayList<Order>();
+        try {
+            String sql = "select * from orders order by id desc limit ?, ? ";
+            if (conn != null) {
+                PreparedStatement pst = conn.prepareStatement(sql);
+                pst.setInt(1, (start - 1) * total);
+                pst.setInt(2, total);
+                ResultSet resultSet = pst.executeQuery();
+                while (resultSet.next()) {
+                    Order order = new Order();
+                    order.setId(resultSet.getInt("id"));
+                    order.setId_customer(resultSet.getInt("customerId"));
+                    order.setNote(resultSet.getString("note"));
+                    order.setTotal(resultSet.getDouble("total"));
+                    order.setStatus(resultSet.getInt("orderStatus"));
+                    order.setCreateAt(resultSet.getDate("createAt"));
+                    list.add(order);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
+
+    public static List<OrderItem> findOrderItemById(int id) {
+        List<OrderItem> list = new ArrayList<OrderItem>();
+        try {
+            String sql = "select * from order_details where orderId = ?";
+            if (conn != null) {
+                PreparedStatement pst = conn.prepareStatement(sql);
+                pst.setInt(1, id);
+                ResultSet resultSet = pst.executeQuery();
+                while (resultSet.next()) {
+                    OrderItem orderItem = new OrderItem();
+                    orderItem.setId(resultSet.getInt("id"));
+                    orderItem.setOrderId(resultSet.getInt("orderId"));
+                    orderItem.setProductId(resultSet.getInt("productId"));
+                    orderItem.setQuantity(resultSet.getInt("quantity"));
+                    orderItem.setTotal(resultSet.getDouble("total"));
+                    orderItem.setPrice(resultSet.getDouble("price"));
+                    list.add(orderItem);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return list;
     }
 }

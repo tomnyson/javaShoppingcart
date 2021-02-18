@@ -7,6 +7,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
+
 <%@ page import="com.entity.Cart" %>
 <!DOCTYPE html>
 <html>
@@ -19,19 +21,50 @@
     </head>
     <!------ Include the above in your HEAD tag ---------->
     <body>
-          <c:import  url="include/header.jsp"/>
+        <c:import  url="include/header.jsp"/>
         <div class="container">
-           
+
             <div class="card">
                 <div class="row">
                     <aside class="col-sm-5 border-right">
                         <article class="gallery-wrap"> 
                             <div class="img-big-wrap">
-                                <div> <a href="#"><img src="${carDetail.getImage()}" width="300px"/></a></div>
+                                <div> <a href="#">
+                                        <c:if test="${not empty carDetail.getImage()}">
+                                            <c:choose>
+                                                <c:when test = "${fn:contains(carDetail.getImage(), 'http')}">
+                                                    <img  src="${carDetail.getImage()}" width="100%" height="200px"/>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <img src="${pageContext.request.contextPath}/upload/${carDetail.getImage()}" width="100%" height="200"/>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </c:if>
+                                    </a></div>
                             </div> <!-- slider-product.// -->
                             <div class="img-small-wrap">
-                                <div class="item-gallery"> <img src="${carDetail.getImage()}"> </div>
-                                <div class="item-gallery"> <img src="${carDetail.getImage()}"> </div>
+                                <div class="item-gallery">
+                                    <c:if test="${not empty carDetail.getImage()}">
+                                        <c:choose>
+                                            <c:when test = "${fn:contains(carDetail.getImage(), 'http')}">
+                                                <img  src="${carDetail.getImage()}" width="100%" height="200px"/>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <img src="${pageContext.request.contextPath}/upload/${carDetail.getImage()}" width="100%" height="200"/>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:if>
+                                </div>
+                                <div class="item-gallery"> <c:if test="${not empty carDetail.getImage()}">
+                                        <c:choose>
+                                            <c:when test = "${fn:contains(carDetail.getImage(), 'http')}">
+                                                <img  src="${carDetail.getImage()}" width="100%" height="200px"/>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <img src="${pageContext.request.contextPath}/upload/${carDetail.getImage()}" width="100%" height="200"/>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:if> </div>
                             </div> <!-- slider-nav.// -->
                         </article> <!-- gallery-wrap .end// -->
                     </aside>
@@ -42,7 +75,7 @@
                             <p class="price-detail-wrap"> 
                                 <span class="price h3 text-warning"> 
                                     <span class="currency">VNĐ</span><span class="num">
-                                         <fmt:formatNumber type="number" maxFractionDigits="2" value="${carDetail.getPrice()}" /> VNĐ
+                                        <fmt:formatNumber type="number" maxFractionDigits="2" value="${carDetail.getPrice()}" /> VNĐ
                                     </span>
                                 </span> 
                             </p> <!-- price-detail-wrap .// -->
@@ -50,7 +83,7 @@
                                 <dt>Description</dt>
                                 <dd><p>${carDetail.getDescription()}</p></dd>
                             </dl>
-                             <dl class="item-property">
+                            <dl class="item-property">
                                 <dt>contact</dt>
                                 <dd><p>${carDetail.getContact()}</p></dd>
                             </dl>
@@ -70,7 +103,7 @@
                             <a href="#" class="btn btn-lg btn-primary text-uppercase"> Mua Ngay</a>
                             </div> <!-- row.// -->
                             <hr>
-                           
+
                         </article> <!-- card-body.// -->
                     </aside> <!-- col.// -->
                 </div> <!-- row.// -->
@@ -79,5 +112,5 @@
 
         </div>
     </body>
-     <c:import  url="include/footer.jsp"/>
+    <c:import  url="include/footer.jsp"/>
 </html>

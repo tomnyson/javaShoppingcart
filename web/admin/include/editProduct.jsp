@@ -9,66 +9,55 @@
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <ul class="nav nav-pills" role="tablist">
     <li class="nav-item">
-        <a class="nav-link active" data-toggle="pill" href="#home">Danh sách</a>
+        <a class="nav-link" href="../admin/category">Danh sách</a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link" data-toggle="pill" href="#menu1">Thêm Danh Mục</a>
+    <li class="nav-item ">
+        <a class="nav-link active" data-toggle="pill" href="#menu1">Edit Danh Mục</a>
     </li>
 </ul>
-<div class="tab-content">
-    <div id="home" class="container tab-pane active"><br>
-        <table class="table">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">id</th>
-                    <th scope="col">name</th>
-                    <th scope="col">description</th>
-                    <th scope="col">image</th>
-                    <th scope="col">action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <c:forEach items="${listCat}" var="cat">
-                    <tr>
-                        <td><c:out value="${cat.getId()}"/></td>
-                        <td>${cat.getName()}</td>
-                        <td class="short-text">${cat.getDescription()}</td>
-                        <td>
-                            <c:if test="${not empty cat.getImage()}">
-                                <img src="${pageContext.request.contextPath}/upload/${cat.getImage()}" width="200" height="100"/>
-                            </c:if>
-                        </td>
-                        <td>
-                            <form action="category" method="post">
-                                <input type="hidden" name="id" value="${cat.getId()}"/>
-                                <a href="?id=${cat.getId()}">Edit</a>
-                                <button type="submit" name="action"  value="Delete" class="btn btn-danger">X</button></td>
-                        </form>
 
-                    </tr>
-                </c:forEach>
-            </tbody>
-        </table>
+<form action="product" method="post" enctype='multipart/form-data'>
+    <div class="form-group">
+        <label for="name">tên danh mục:</label>
+        <input name="title" type="text" value="${currentProd.getTitle()}" required class="form-control" placeholder="tên sản phẩm" id="email">
     </div>
-    <div id="menu1" class="container tab-pane fade"><br>
-        <form action="category" method="post" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="name">tên danh mục:</label>
-                <input name="name" type="text" required class="form-control" placeholder="tên danh mục" id="email">
-            </div>
-            <div class="form-group">
-                <label for="pwd">Mô tả</label>
-                <textarea name="description" class="form-control" placeholder="mô tả danh mục" id="pwd"></textarea>
-            </div>
-            <label for="pwd">hình ảnh</label>
-            <input type="file" name="image" t class="form-control" placeholder="mô tả danh mục" id="pwd"></textarea>
-            <button type="submit" name="action" value="Add"  class="btn btn-success">Thêm</button>
-        </form>
+     <div class="form-group">
+        <label for="name">gía sản phẩm:</label>
+        <input name="price" type="number" value="${currentProd.getPrice()}" required class="form-control" placeholder="gía sản phẩm" id="email">
     </div>
-</div>
+     <div class="form-group">
+        <label for="name">danh mục :</label>
+        <select name="categoryCar" class="custom-select" required>
+            <option>Chọn danh mục sản phẩm</option>
+            <c:forEach items="${listCat}" var="cat">
+                <option value="${cat.getId()}" ${cat.getId() == currentProd.getCategoryId() ? 'selected="selected"' : ''} >${cat.getName()}</option>
+            </c:forEach>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="pwd">Mô tả</label>
+        <textarea name="description"  id="description" class="form-control" placeholder="mô tả danh mục">
+            <c:out value="${currentProd.getDescription()}"/>
+        </textarea>
+    </div>
+   
+    <div class="form-group">
+        <label for="pwd">contact</label>
+        <textarea name="contact"  id="description" class="form-control" placeholder="mô tả danh mục">
+            <c:out value="${currentProd.getContact()}"/>
+        </textarea>
+    </div>
+    <label for="pwd">hình ảnh</label>
+    <c:if test="${not empty currentProd.getImage()}">
+        <img src="${pageContext.request.contextPath}/upload/${currentProd.getImage()}" width="200" height="100"/>
+    </c:if>
+    <input type="file" name="image" t class="form-control" placeholder="mô tả danh mục" ></textarea>
+    <input type="hidden" name="id" value="${currentProd.getId()}"/>
+    <button type="submit" name="action" value="Update"  class="btn btn-success">Cập nhật</button>
+</form>
 </div>
 <script>
     CKEDITOR.replace('description');
-    
+    CKEDITOR.replace('contact');
 </script>
 

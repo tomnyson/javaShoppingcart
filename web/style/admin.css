@@ -14,3 +14,16 @@ and open the template in the editor.
   overflow: hidden;
   text-overflow: ellipsis; 
 }
+.btn-submit {
+ margin-top: 20px; 
+}
+.active-tab {
+    background: #007bff;
+   
+}
+.active-tab a {
+    color: #fff;  
+}
+a.active {
+    color: #fff; 
+}

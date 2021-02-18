@@ -6,8 +6,11 @@
 package com.controller;
 
 import com.entity.Category;
+import com.entity.Order;
+import com.entity.OrderItem;
 import com.entity.User;
 import com.model.CategoryDao;
+import com.model.OrderDao;
 import com.model.UserDao;
 import com.sun.mail.handlers.image_gif;
 import java.io.File;
@@ -51,19 +54,19 @@ public class OrderAdminController extends HttpServlet {
             String id = request.getParameter("id");
             HttpSession session = request.getSession();
             if (id != null) {
-                Category currentCat = CategoryDao.findCategoryById(Integer.parseInt(id));
-                request.setAttribute("currentCat", currentCat);
-                session.setAttribute("view", "include/editUser.jsp");
+                List<OrderItem> currentOrder = new ArrayList<>();
+                currentOrder = OrderDao.findOrderItemById(Integer.parseInt(id));
+                request.setAttribute("currentOrder", currentOrder);
+                session.setAttribute("view", "include/orderDetail.jsp");
                 request.getRequestDispatcher("../admin/dashboard.jsp").forward(request, response);
                 return;
             }
-            List<User> listUser = new ArrayList<User>();
-            listUser = UserDao.findAll();
-            System.out.println("listUser" + listUser.size());
-            request.setAttribute("listUser", listUser);
+            List<Order> listOder = new ArrayList<Order>();
+            listOder = OrderDao.findAll(1, 20);
+            request.setAttribute("listOder", listOder);
             request.setAttribute("title", "danh sách user");
-            request.setAttribute("tabSelected", "user");
-            session.setAttribute("view", "include/user.jsp");
+            request.setAttribute("tabSelected", "order");
+            session.setAttribute("view", "include/order.jsp");
             request.getRequestDispatcher("../admin/dashboard.jsp").forward(request, response);
             return;
         } else {
@@ -115,7 +118,6 @@ public class OrderAdminController extends HttpServlet {
         String name = request.getParameter("name");
         String description = request.getParameter("description");
         String image = null;
-        System.out.println("call update id" + id);
         Category cat = new Category(Integer.parseInt(id), name, description, image);
         boolean result = CategoryDao.update(cat);
         HttpSession session = request.getSession();

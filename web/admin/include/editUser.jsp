@@ -12,27 +12,28 @@
         <a class="nav-link" href="../admin/category">Danh sách</a>
     </li>
     <li class="nav-item ">
-        <a class="nav-link active" data-toggle="pill" href="#menu1">Edit Danh Mục</a>
+        <a class="nav-link active" data-toggle="pill" href="#menu1">Edit User</a>
     </li>
 </ul>
 
-<form action="category" method="post">
+<form action="user" method="post">
     <div class="form-group">
-        <label for="name">tên danh mục:</label>
-        <input name="name" type="text" value="${currentCat.getName()}" required class="form-control" placeholder="tên danh mục" id="email">
+        <label for="name">UserName:</label>
+        <input name="email" readonly type="text" value="${currentUser.getUsername()}" required class="form-control" placeholder="tên danh mục" id="email">
     </div>
     <div class="form-group">
-        <label for="pwd">Mô tả</label>
-        <textarea name="description"  id="description" class="form-control" placeholder="mô tả danh mục">
-            <c:out value="${currentCat.getDescription()}"/>
-        </textarea>
+        <label for="name">password:</label>
+        <input name="password:" type="password" value="${currentUser.getPassword()}" required class="form-control" placeholder="tên danh mục" id="email">
     </div>
-    <label for="pwd">hình ảnh</label>
-    <c:if test="${not empty currentCat.getImage()}">
-        <img src="${pageContext.request.contextPath}/upload/${currentCat.getImage()}" width="200" height="100"/>
-    </c:if>
-    <input type="file" name="image" t class="form-control" placeholder="mô tả danh mục" ></textarea>
-    <input type="hidden" name="id" value="${currentCat.getId()}"/>
+      <div class="form-group">
+        <label for="name">Role:</label>
+        <select name="role" class="custom-select" required>
+            <option>Chọn quyền</option>
+                <option value="admin" ${"admin" == currentUser.getRole() ? 'selected="selected"' : ''} >admin</option>
+                <option value="user" ${"user" == currentUser.getRole() ? 'selected="selected"' : ''} >user</option>
+        </select>
+    </div>
+    <input type="hidden" name="id" value="${currentUser.getId()}"/>
     <button type="submit" name="action" value="Update"  class="btn btn-success">Cập nhật</button>
 </form>
 </div>
