@@ -51,7 +51,7 @@ public class CarDao {
     public static List<Car> findAll(int start, int total) {
         List<Car> list = new ArrayList<Car>();
         try {
-            String sql = "select * from cars limit ?, ?";
+            String sql = "select * from cars order by id desc limit ?, ? ";
             if (conn != null) {
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setInt(1, (start - 1) * total);
@@ -78,20 +78,20 @@ public class CarDao {
     public static Car findProductById(int id) {
         Car car = new Car();
         try {
-            String sql = "select * from cars where id= ?";
+            String sql = "select * from cars c inner join category cat on c.categoryId = cat.id  where c.id= ?";
             if (conn != null) {
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setInt(1, id);
                 ResultSet resultSet = pst.executeQuery();
                 while (resultSet.next()) {
-
-                    car.setId(resultSet.getInt("id"));
-                    car.setTitle(resultSet.getString("title"));
-                    car.setDescription(resultSet.getString("description"));
-                    car.setContact(resultSet.getString("description"));
-                    car.setImage(resultSet.getString("image"));
-                    car.setPrice(resultSet.getDouble("price"));
-                    car.setUrl(resultSet.getString("url"));
+                    car.setId(resultSet.getInt("c.id"));
+                    car.setTitle(resultSet.getString("c.title"));
+                    car.setDescription(resultSet.getString("c.description"));
+                    car.setContact(resultSet.getString("c.description"));
+                    car.setImage(resultSet.getString("c.image"));
+                    car.setPrice(resultSet.getDouble("c.price"));
+                    car.setUrl(resultSet.getString("c.url"));
+                    car.setCategoryId(resultSet.getInt("cat.id"));
                 }
             }
         } catch (Exception ex) {

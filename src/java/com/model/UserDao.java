@@ -6,9 +6,13 @@
 package com.model;
 
 import com.entity.Car;
+import com.entity.Category;
 import com.entity.User;
+import static com.model.CategoryDao.conn;
 import com.until.DBhelper;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -104,4 +108,49 @@ public class UserDao {
         }
         return user;
     }
+     public static List<User> findAll() {
+        List<User> list = new ArrayList<User>();
+        try {
+            String sql = "select * from users";
+            if (conn != null) {
+                PreparedStatement pst = conn.prepareStatement(sql);
+                ResultSet resultSet = pst.executeQuery();
+                while (resultSet.next()) {
+                    User user = new User();
+                    user.setId(resultSet.getInt("id"));
+                    user.setUsername(resultSet.getString("email"));
+                    user.setRole(resultSet.getString("role"));
+                    user.setPassword(resultSet.getString("password"));
+                    list.add(user);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
+     
+      public static boolean updateUser(User user) {
+        try {
+            Connection conn = DBhelper.getConnection();
+            String sql = "update users set email= ?, password = ?, role = ? where id = ?";
+            if (conn != null) {
+                PreparedStatement pst = conn.prepareStatement(sql);
+                pst.setString(1, user.getUsername());
+                pst.setString(2, user.getPassword());
+                pst.setString(3, user.getRole());
+                 pst.setInt(4, user.getId());
+                int result = pst.executeUpdate();
+                if (result > 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
 }

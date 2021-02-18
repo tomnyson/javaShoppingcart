@@ -6,7 +6,9 @@
 package com.controller;
 
 import com.entity.Category;
+import com.entity.User;
 import com.model.CategoryDao;
+import com.model.UserDao;
 import com.sun.mail.handlers.image_gif;
 import java.io.File;
 import java.io.IOException;
@@ -26,11 +28,8 @@ import javax.servlet.http.Part;
  *
  * @author tomnyson
  */
-@WebServlet(name = "category", urlPatterns = {"/admin/category", "/admin/category/*"})
-@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
-        maxFileSize = 1024 * 1024 * 50, // 50MB
-        maxRequestSize = 1024 * 1024 * 50)
-public class CategoryController extends HttpServlet {
+@WebServlet(name = "order", urlPatterns = {"/admin/order", "/admin/order/*"})
+public class OrderAdminController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -54,17 +53,17 @@ public class CategoryController extends HttpServlet {
             if (id != null) {
                 Category currentCat = CategoryDao.findCategoryById(Integer.parseInt(id));
                 request.setAttribute("currentCat", currentCat);
-                session.setAttribute("view", "include/editDanhMuc.jsp");
+                session.setAttribute("view", "include/editUser.jsp");
                 request.getRequestDispatcher("../admin/dashboard.jsp").forward(request, response);
                 return;
             }
-            List<Category> listCat = new ArrayList<Category>();
-            listCat = CategoryDao.findAll();
-            System.out.println("listCat" + listCat.size());
-            request.setAttribute("listCat", listCat);
-            request.setAttribute("title", "danh sách category");
-            request.setAttribute("tabSelected", "danhmuc");
-            session.setAttribute("view", "include/danhmuc.jsp");
+            List<User> listUser = new ArrayList<User>();
+            listUser = UserDao.findAll();
+            System.out.println("listUser" + listUser.size());
+            request.setAttribute("listUser", listUser);
+            request.setAttribute("title", "danh sách user");
+            request.setAttribute("tabSelected", "user");
+            session.setAttribute("view", "include/user.jsp");
             request.getRequestDispatcher("../admin/dashboard.jsp").forward(request, response);
             return;
         } else {
@@ -73,13 +72,13 @@ public class CategoryController extends HttpServlet {
             if (action != null) {
                 switch (action) {
                     case "Add":
-                        AddCategory(request, response);
+                        AddUser(request, response);
                         break;
                     case "Delete":
-                        DeleteCategory(request, response);
+                        DeleteUser(request, response);
                         break;
                     case "Update":
-                        EditCategory(request, response);
+                        EditUser(request, response);
                         break;
                 }
             }
@@ -88,27 +87,29 @@ public class CategoryController extends HttpServlet {
 
     }
 
-    public void AddCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        String name = request.getParameter("name");
-        String description = request.getParameter("description");
-        String path = System.getProperty("user.dir") + "/upload";
-        File dir = new File(request.getServletContext().getRealPath("/upload"));
-        if (!dir.exists()) { // tạo nếu chưa tồn tại
-            dir.mkdirs();
-        }
-        Part mainImage = request.getPart("image");
-        File photoFile = new File(dir, mainImage.getSubmittedFileName());
-        mainImage.write(photoFile.getAbsolutePath());
-        String image = photoFile.getName();
-        Category cat = new Category(name, description, image);
-        boolean result = CategoryDao.create(cat);
+    public void AddUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        session.setAttribute("message", "Thêm thành công");
-        response.sendRedirect(request.getContextPath() + "/admin/category");
+        String username = request.getParameter("email");
+        String password = request.getParameter("password");
+        String passwordConfirm = request.getParameter("passwordconfirm");
+        String role = request.getParameter("role");
+        if (!password.equals(passwordConfirm)) {
+            System.out.println("go here");
+            session.setAttribute("message", "Thêm ko thành công");
+            response.sendRedirect(request.getContextPath() + "/admin/user");
+            return;
+        }
+        User user = new User(username, password, role);
+        boolean result = UserDao.createUser(user);
+        if (result) {
+            session.setAttribute("message", "Thêm thành công");
+        } else {
+            session.setAttribute("message", "Thêm ko thành công");
+        }
+        response.sendRedirect(request.getContextPath() + "/admin/user");
     }
 
-    public void EditCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void EditUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String id = request.getParameter("id");
         String name = request.getParameter("name");
@@ -127,7 +128,7 @@ public class CategoryController extends HttpServlet {
         response.sendRedirect(request.getContextPath() + "/admin/category");
     }
 
-    public void DeleteCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void DeleteUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             String id = request.getParameter("id");
             boolean result = CategoryDao.delete(Integer.parseInt(id));

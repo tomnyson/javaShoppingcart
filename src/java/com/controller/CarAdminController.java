@@ -35,6 +35,7 @@ import javax.servlet.http.Part;
         maxFileSize = 1024 * 1024 * 50, // 50MB
         maxRequestSize = 1024 * 1024 * 50)
 public class CarAdminController extends HttpServlet {
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String method = request.getMethod();
@@ -43,17 +44,27 @@ public class CarAdminController extends HttpServlet {
             String id = request.getParameter("id");
             HttpSession session = request.getSession();
             if (id != null) {
-                Category currentCat = CategoryDao.findCategoryById(Integer.parseInt(id));
-                request.setAttribute("currentCat", currentCat);
-                session.setAttribute("view", "include/editDanhMuc.jsp");
+                Car currentProd = CarDao.findProductById(Integer.parseInt(id));
+                List<Category> listCat = new ArrayList<Category>();
+                listCat = CategoryDao.findAll();
+                request.setAttribute("listCat", listCat);
+                listCat = CategoryDao.findAll();
+                request.setAttribute("currentProd", currentProd);
+                request.setAttribute("title", "sửa sản phẩm");
+                request.setAttribute("tabSelected", "sanpham");
+                session.setAttribute("view", "include/editProduct.jsp");
                 request.getRequestDispatcher("../admin/dashboard.jsp").forward(request, response);
                 return;
             }
+            List<Car> listProd = new ArrayList<Car>();
             List<Category> listCat = new ArrayList<Category>();
+            listProd = CarDao.findAll(1, 20);
             listCat = CategoryDao.findAll();
-            System.out.println("listCat" + listCat.size());
             request.setAttribute("listCat", listCat);
-            session.setAttribute("view", "include/danhmuc.jsp");
+            request.setAttribute("listProd", listProd);
+            request.setAttribute("title", "danh sách sản phẩm");
+            request.setAttribute("tabSelected", "sanpham");
+            session.setAttribute("view", "include/product.jsp");
             request.getRequestDispatcher("../admin/dashboard.jsp").forward(request, response);
             return;
         } else {
@@ -62,13 +73,13 @@ public class CarAdminController extends HttpServlet {
             if (action != null) {
                 switch (action) {
                     case "Add":
-                        AddCategory(request, response);
+                        AddProduct(request, response);
                         break;
                     case "Delete":
-                        DeleteCategory(request, response);
+                        DeleteProduct(request, response);
                         break;
                     case "Update":
-                        EditCategory(request, response);
+                        EditProduct(request, response);
                         break;
                 }
             }
@@ -77,9 +88,11 @@ public class CarAdminController extends HttpServlet {
 
     }
 
-    public void AddCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void AddProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String name = request.getParameter("name");
+        String title = request.getParameter("title");
+        String contact = request.getParameter("contact");
+        String price = request.getParameter("price");
         String description = request.getParameter("description");
         String path = System.getProperty("user.dir") + "/upload";
         File dir = new File(request.getServletContext().getRealPath("/upload"));
@@ -90,36 +103,56 @@ public class CarAdminController extends HttpServlet {
         File photoFile = new File(dir, mainImage.getSubmittedFileName());
         mainImage.write(photoFile.getAbsolutePath());
         String image = photoFile.getName();
-        Category cat = new Category(name, description, image);
-        boolean result = CategoryDao.create(cat);
+        //Car(String image, String title, String url, Double price, String description, String contact, int categoryId)
+        Car car = new Car(image, title, null, Double.parseDouble(price), description, contact, 1);
+        boolean result = CarDao.create(car);
         HttpSession session = request.getSession();
         session.setAttribute("message", "Thêm thành công");
         response.sendRedirect(request.getContextPath() + "/admin/category");
     }
 
-    public void EditCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void EditProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String id = request.getParameter("id");
-        String name = request.getParameter("name");
+        String title = request.getParameter("title");
+        String contact = request.getParameter("contact");
+        String price = request.getParameter("price");
         String description = request.getParameter("description");
+        String categoryId = request.getParameter("categoryCar");
+        String path = System.getProperty("user.dir") + "/upload";
+
         String image = null;
-        System.out.println("call update id" + id);
-        Category cat = new Category(Integer.parseInt(id), name, description, image);
-        boolean result = CategoryDao.update(cat);
-        HttpSession session = request.getSession();
-        if (result) {
-            session.setAttribute("message", "Cập nhật thành công");
-        } else {
-            session.setAttribute("message", "Cập nhật Ko thành công");
+        try {
+            File dir = new File(request.getServletContext().getRealPath("/upload"));
+            if (!dir.exists()) { // tạo nếu chưa tồn tại
+                dir.mkdirs();
+            }
+            Part mainImage = request.getPart("image");
+            if (mainImage != null) {
+                File photoFile = new File(dir, mainImage.getSubmittedFileName());
+                mainImage.write(photoFile.getAbsolutePath());
+                image = photoFile.getName();
+            }
+        } catch (Exception e) {
         }
 
-        response.sendRedirect(request.getContextPath() + "/admin/category");
+//        public Car(int id, String image, String title, String url, Double price, String description, String contact, int categoryId)
+        Car car = new Car(Integer.parseInt(id), image, title, null, Double.parseDouble(price), description, contact, Integer.parseInt(categoryId));
+        boolean result = CarDao.update(car);
+        HttpSession session = request.getSession();
+        if (result) {
+            session.setAttribute("message", "Sửa thành công");
+        } else {
+            session.setAttribute("message", "Sửa ko thành công");
+        }
+        session.setAttribute("message", "Thêm thành công");
+        response.sendRedirect(request.getContextPath() + "/admin/product");
     }
 
-    public void DeleteCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void DeleteProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             String id = request.getParameter("id");
-            boolean result = CategoryDao.delete(Integer.parseInt(id));
+            boolean result = CarDao.delete(Integer.parseInt(id));
             HttpSession session = request.getSession();
             if (result) {
                 session.setAttribute("message", "Xoá thành công");

@@ -67,9 +67,8 @@ public class User implements Serializable {
     }
 
     public void setPassword(String password) {
-        String hash = BCrypt.hashpw(password, BCrypt.gensalt(12));
-        System.out.println("BCrypt hash: " + hash);
-        this.password = hash;
+//        String hash = BCrypt.hashpw(password, BCrypt.gensalt(12));
+        this.password = password;
     }
 
 }
