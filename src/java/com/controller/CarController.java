@@ -9,12 +9,15 @@ import com.entity.Car;
 import com.entity.Category;
 import com.model.CarDao;
 import com.model.CategoryDao;
+import com.pojo.Cars;
+import com.until.DBhelper;
 import com.until.Helper;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.EntityManager;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -24,6 +27,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+import javax.persistence.*;
 
 /**
  *
@@ -64,14 +68,12 @@ public class CarController extends HttpServlet {
                 dis.forward(request, response);
             }
             // load chi tiet san pham
-
             String page = request.getParameter("page");
             if (id != null && !id.isEmpty()) {
                 //load chi tiet san pham
                 int idCar = Integer.parseInt(id);
                 // lay chiet san phan du vao id cua car
                 Car carDetail = CarDao.findProductById(idCar);
-
                 request.setAttribute("carDetail", carDetail);
                 RequestDispatcher dis = this.getServletContext().getRequestDispatcher("/chitietxe.jsp");
                 dis.forward(request, response);
@@ -87,7 +89,9 @@ public class CarController extends HttpServlet {
                 lscar = CarDao.findAll(1, 20);
             }
             catCar = CategoryDao.findAll();
-            request.setAttribute("lscar", lscar);
+            List<Car> list = new ArrayList<Car>();
+            list = CarDao.findAll(currentPage, 20);
+            request.setAttribute("lscar", list);
             request.setAttribute("catCar", catCar);
             RequestDispatcher dis = this.getServletContext().getRequestDispatcher("/danhsachxe.jsp");
             dis.forward(request, response);

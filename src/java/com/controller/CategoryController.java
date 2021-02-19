@@ -7,10 +7,8 @@ package com.controller;
 
 import com.entity.Category;
 import com.model.CategoryDao;
-import com.sun.mail.handlers.image_gif;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -46,12 +44,12 @@ public class CategoryController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // chia hai trường hợp get/post
         String method = request.getMethod();
-
         if (method.equals("GET")) {
             String id = request.getParameter("id");
             HttpSession session = request.getSession();
-            if (id != null) {
+            if (id != null && !id.isEmpty()) {
                 Category currentCat = CategoryDao.findCategoryById(Integer.parseInt(id));
                 request.setAttribute("currentCat", currentCat);
                 session.setAttribute("view", "include/editDanhMuc.jsp");
@@ -60,7 +58,6 @@ public class CategoryController extends HttpServlet {
             }
             List<Category> listCat = new ArrayList<Category>();
             listCat = CategoryDao.findAll();
-            System.out.println("listCat" + listCat.size());
             request.setAttribute("listCat", listCat);
             request.setAttribute("title", "danh sách category");
             request.setAttribute("tabSelected", "danhmuc");

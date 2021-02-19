@@ -95,6 +95,7 @@ public class CarAdminController extends HttpServlet {
         String price = request.getParameter("price");
         String description = request.getParameter("description");
         String path = System.getProperty("user.dir") + "/upload";
+         String cat = request.getParameter("category");
         File dir = new File(request.getServletContext().getRealPath("/upload"));
         if (!dir.exists()) { // tạo nếu chưa tồn tại
             dir.mkdirs();
@@ -104,7 +105,7 @@ public class CarAdminController extends HttpServlet {
         mainImage.write(photoFile.getAbsolutePath());
         String image = photoFile.getName();
         //Car(String image, String title, String url, Double price, String description, String contact, int categoryId)
-        Car car = new Car(image, title, null, Double.parseDouble(price), description, contact, 1);
+        Car car = new Car(image, title, null, Double.parseDouble(price), description, contact, Integer.parseInt(cat));
         boolean result = CarDao.create(car);
         HttpSession session = request.getSession();
         session.setAttribute("message", "Thêm thành công");
@@ -145,7 +146,6 @@ public class CarAdminController extends HttpServlet {
         } else {
             session.setAttribute("message", "Sửa ko thành công");
         }
-        session.setAttribute("message", "Thêm thành công");
         response.sendRedirect(request.getContextPath() + "/admin/product");
     }
 
@@ -159,8 +159,7 @@ public class CarAdminController extends HttpServlet {
             } else {
                 session.setAttribute("message", "Xoá ko thành công");
             }
-
-            response.sendRedirect(request.getContextPath() + "/admin/category");
+            response.sendRedirect(request.getContextPath() + "/admin/product");
         } catch (Exception e) {
             throw e;
         }
