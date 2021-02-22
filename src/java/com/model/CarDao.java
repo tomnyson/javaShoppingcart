@@ -23,7 +23,6 @@ public class CarDao {
 
     public static boolean create(Car product) {
         try {
-
             String sql = "INSERT INTO cars (title, description, image, contact, url, price, categoryId)"
                     + " VALUES(?, ?, ?, ?, ?, ?,?)";
             if (conn != null) {

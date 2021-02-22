@@ -9,13 +9,13 @@ package com.entity;
  *
  * @author tomnyson
  */
-public class Message {
+public class MessageCode {
 
     public String message;
     public String status;
     public int code = 400;
 
-    public Message(String message, String status) {
+    public MessageCode(String message, String status) {
         this.message = message;
         this.status = status;
     }

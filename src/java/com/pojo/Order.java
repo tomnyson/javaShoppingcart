@@ -1,5 +1,6 @@
-package com.entity;
+package com.pojo;
 
+import com.entity.*;
 import java.util.ArrayList;
 import java.util.Date;
 

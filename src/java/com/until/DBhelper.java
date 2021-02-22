@@ -9,6 +9,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 /**
  *
@@ -36,5 +39,14 @@ public class DBhelper {
             ex.printStackTrace();
         }
         return conn;
+    }
+    public static EntityManager getJpaConnect() {
+        EntityManager em = null;
+        try {
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("BanHangPU");
+            em = factory.createEntityManager();
+        } catch (Exception e) {
+        }
+        return em;
     }
 }

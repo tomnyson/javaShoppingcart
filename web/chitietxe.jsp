@@ -23,7 +23,6 @@
     <body>
         <c:import  url="include/header.jsp"/>
         <div class="container">
-
             <div class="card">
                 <div class="row">
                     <aside class="col-sm-5 border-right">

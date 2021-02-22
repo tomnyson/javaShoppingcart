@@ -73,7 +73,7 @@
             </div>
             <div class="form-group">
                 <label for="name">danh mục :</label>
-                <select name="categoryCar" class="custom-select" required>
+                <select name="category" class="custom-select" required>
                     <option selected>Chọn danh mục sản phẩm</option>
                     <c:forEach items="${listCat}" var="cat">
                         <option value="${cat.getId()}">${cat.getName()}</option>

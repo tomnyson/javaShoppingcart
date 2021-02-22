@@ -23,8 +23,10 @@
         <nav class="navbar navbar-light bg-light">
             <a class="navbar-brand" href="#">ADMIN</a>
             <div>
-                <span  href="#">Wellcome: admin</span> |
-                <a href="#">logout</a>
+                <form action="${pageContext.request.contextPath}/AuthController" method="post">
+                    <span  href="#">Wellcome: admin</span> |
+                    <button class="btn btn-link" type="submit" name="action" value="logout">đăng xuất</button>
+                </form>
             </div>
 
         </nav>
@@ -49,7 +51,9 @@
                         <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
                             <c:choose>
                                 <c:when test="${sessionScope.view != null}">
-                                    <c:import url="${sessionScope.view}"/>
+                                    <%-- <c:import url="${sessionScope.view}"/> --%>
+                                    <c:out value="${pageContext.request.contextPath}"/>
+                                      <c:import url="${pageContext.request.contextPath}/../admin/include/danhmuc.jsp"/>
                                 </c:when>
                                 <c:otherwise>
                                     <c:import url="include/danhmuc.jsp"/>

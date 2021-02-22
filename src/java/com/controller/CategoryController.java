@@ -86,7 +86,6 @@ public class CategoryController extends HttpServlet {
     }
 
     public void AddCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         String name = request.getParameter("name");
         String description = request.getParameter("description");
         String path = System.getProperty("user.dir") + "/upload";
@@ -100,8 +99,14 @@ public class CategoryController extends HttpServlet {
         String image = photoFile.getName();
         Category cat = new Category(name, description, image);
         boolean result = CategoryDao.create(cat);
-        HttpSession session = request.getSession();
+         HttpSession session = request.getSession();
+        if(result) {
         session.setAttribute("message", "Thêm thành công");
+        } else {
+         session.setAttribute("message", "Thêm ko thành công");
+        }
+       
+        
         response.sendRedirect(request.getContextPath() + "/admin/category");
     }
 
@@ -111,7 +116,6 @@ public class CategoryController extends HttpServlet {
         String name = request.getParameter("name");
         String description = request.getParameter("description");
         String image = null;
-        System.out.println("call update id" + id);
         Category cat = new Category(Integer.parseInt(id), name, description, image);
         boolean result = CategoryDao.update(cat);
         HttpSession session = request.getSession();
