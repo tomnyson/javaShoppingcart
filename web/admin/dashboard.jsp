@@ -51,9 +51,7 @@
                         <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
                             <c:choose>
                                 <c:when test="${sessionScope.view != null}">
-                                    <%-- <c:import url="${sessionScope.view}"/> --%>
-                                    <c:out value="${pageContext.request.contextPath}"/>
-                                      <c:import url="${pageContext.request.contextPath}/../admin/include/danhmuc.jsp"/>
+                                     <c:import url="${sessionScope.view}"/> 
                                 </c:when>
                                 <c:otherwise>
                                     <c:import url="include/danhmuc.jsp"/>

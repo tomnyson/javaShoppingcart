@@ -99,14 +99,12 @@ public class CategoryController extends HttpServlet {
         String image = photoFile.getName();
         Category cat = new Category(name, description, image);
         boolean result = CategoryDao.create(cat);
-         HttpSession session = request.getSession();
-        if(result) {
-        session.setAttribute("message", "Thêm thành công");
+        HttpSession session = request.getSession();
+        if (result) {
+            session.setAttribute("message", "Thêm thành công");
         } else {
-         session.setAttribute("message", "Thêm ko thành công");
+            session.setAttribute("message", "Thêm ko thành công");
         }
-       
-        
         response.sendRedirect(request.getContextPath() + "/admin/category");
     }
 
